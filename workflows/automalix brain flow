@@ -1,0 +1,251 @@
+{
+  "name": "Automalix Brain - Complete",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{"hours": 24}]
+        }
+      },
+      "id": "trigger_01",
+      "name": "Daily Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const workflows = [\n  {\n    painPoint: \"SaaS founders manually tracking competitor pricing\",\n    buyerPersona: \"B2B SaaS founders, 100-500 employees\",\n    solution: \"Automated competitor price monitoring with Slack alerts\",\n    stack: \"Python + n8n + Slack API\",\n    expectedOutput: \"Daily competitor price report\",\n    integrations: [\"Stripe\", \"Slack\", \"Google Sheets\"],\n    complexity: \"medium\",\n    timeToValue: \"1 hour setup\"\n  },\n  {\n    painPoint: \"E-commerce stores losing customers due to abandoned carts\",\n    buyerPersona: \"E-commerce managers, 50-200 employees\",\n    solution: \"AI-powered abandoned cart recovery with personalized emails\",\n    stack: \"Python + Shopify API + SendGrid\",\n    expectedOutput: \"Automated email sequences with product recommendations\",\n    integrations: [\"Shopify\", \"SendGrid\", \"OpenAI\"],\n    complexity: \"high\",\n    timeToValue: \"2 hours setup\"\n  },\n  {\n    painPoint: \"Content creators spending hours repurposing content\",\n    buyerPersona: \"Content creators, solopreneurs\",\n    solution: \"AI agent that converts long-form content to Twitter threads, LinkedIn posts, and newsletters\",\n    stack: \"Python + n8n + Twitter API + LinkedIn API\",\n    expectedOutput: \"Multi-platform content in 10+ formats\",\n    integrations: [\"Twitter\", \"LinkedIn\", \"Buffer\", \"Claude API\"],\n    complexity: \"high\",\n    timeToValue: \"1 hour setup\"\n  },\n  {\n    painPoint: \"Agencies manually creating client reports every month\",\n    buyerPersona: \"Marketing agencies, 10-50 employees\",\n    solution: \"Multi-agent system that pulls data from Google Analytics, Facebook Ads, and generates branded PDF reports\",\n    stack: \"Python + n8n + ReAct agents + Plotly\",\n    expectedOutput: \"Automated monthly reports with insights\",\n    integrations: [\"Google Analytics\", \"Facebook Ads\", \"Stripe\", \"Notion\"],\n    complexity: \"expert\",\n    timeToValue: \"3 hours setup\"\n  }\n];\n\nreturn workflows.map(w => ({ json: w }));"
+      },
+      "id": "data_01",
+      "name": "Problem Database",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\n\nconst pricingTiers = {\n  'low': 29,\n  'medium': 79,\n  'high': 149,\n  'expert': 299\n};\n\nconst complexityScore = {\n  'low': 1,\n  'medium': 2,\n  'high': 3,\n  'expert': 4\n};\n\nlet basePrice = pricingTiers[input.complexity] || 79;\n\nif (input.integrations.length >= 4) basePrice += 30;\nif (input.stack.includes('AI') || input.stack.includes('Claude') || input.stack.includes('GPT')) basePrice += 40;\nif (input.solution.includes('multi-agent') || input.solution.includes('Multi-agent')) basePrice += 60;\nif (input.expectedOutput.includes('production') || input.expectedOutput.includes('automated')) basePrice += 20;\n\nconst kitName = input.solution\n  .toLowerCase()\n  .replace(/[^a-z0-9]+/g, '-')\n  .replace(/^-|-$/g, '')\n  .substring(0, 50);\n\nconst timestamp = new Date().toISOString().split('T')[0];\n\nreturn {\n  json: {\n    ...input,\n    kitName: `${kitName}-${timestamp}`,\n    repoName: `automalix-${kitName}`,\n    price: basePrice,\n    priceJustification: `Premium ${input.complexity}-level kit with ${input.integrations.length} integrations`,\n    agentArchitecture: complexityScore[input.complexity] >= 3 ? 'Multi-Agent ReAct' : 'ReAct',\n    modelProvider: 'claude-3.5-sonnet'\n  }\n};"
+      },
+      "id": "prep_01",
+      "name": "Kit Metadata Generator",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $input.first().json;\n\nconst seniorPrompt = `You are a senior software engineer with 10+ years of experience building production-grade automation systems and AI agents.\n\n# PROJECT BRIEF\nPain Point: ${d.painPoint}\nBuyer Persona: ${d.buyerPersona}\nSolution: ${d.solution}\nStack: ${d.stack}\nIntegrations: ${d.integrations.join(', ')}\nPrice Point: $${d.price} (${d.priceJustification})\n\n# YOUR TASK\nGenerate a complete, production-ready automation kit with the following structure:\n\n## 1. MAIN APPLICATION (src/main.py)\n- Entry point with proper argument parsing\n- Environment variable loading from .env\n- Error handling and logging\n- Graceful shutdown handlers\n\n## 2. AI AGENT CONTROLLER (src/agents/controller.py)\n- ${d.agentArchitecture} architecture\n- Tool selection logic with reasoning\n- Memory management (conversation history)\n- Context window management\n\n## 3. TOOLS MODULE (src/tools/tools.py)\n- API integrations: ${d.integrations.join(', ')}\n- Each tool as a separate function with docstrings\n- Error handling for API failures\n- Rate limiting and retries\n\n## 4. CONFIG FILES\n- config.yaml: All configuration parameters\n- .env.example: Required environment variables with descriptions\n- requirements.txt: All dependencies with pinned versions\n\n## 5. N8N WORKFLOW (workflows/workflow.json)\n- Complete n8n workflow JSON (importable)\n- Proper node connections\n- Error handling nodes\n- Webhook triggers where applicable\n\n## 6. DOCKER SETUP\n- Dockerfile with multi-stage build (builder + runtime)\n- docker-compose.yml with all services\n- Health checks for all containers\n- Volume mounts for persistence\n\n## 7. DOCUMENTATION\n- README.md with: setup instructions, architecture diagram (mermaid), usage examples, troubleshooting\n- NOTION_SOP.md with step-by-step operational guide for non-technical users\n- API_DOCS.md if exposing REST APIs\n\n## 8. QUALITY REQUIREMENTS\n- Type hints in ALL Python functions\n- Comprehensive error handling with proper exception types\n- Logging at INFO and ERROR levels (using Python logging module)\n- NO hardcoded credentials (everything from .env)\n- Secure secret management\n- Production-ready code (NO TODO comments, NO placeholders)\n\n# OUTPUT FORMAT\nRespond ONLY with a valid JSON object (no markdown, no preamble):\n{\n  \"files\": [\n    {\"path\": \"src/main.py\", \"content\": \"complete python code here\"},\n    {\"path\": \"src/agents/controller.py\", \"content\": \"complete python code here\"},\n    {\"path\": \"src/tools/tools.py\", \"content\": \"complete python code here\"},\n    {\"path\": \"config.yaml\", \"content\": \"complete yaml config\"},\n    {\"path\": \".env.example\", \"content\": \"complete env template\"},\n    {\"path\": \"requirements.txt\", \"content\": \"complete requirements\"},\n    {\"path\": \"Dockerfile\", \"content\": \"complete dockerfile\"},\n    {\"path\": \"docker-compose.yml\", \"content\": \"complete compose file\"},\n    {\"path\": \"workflows/workflow.json\", \"content\": \"complete n8n workflow\"},\n    {\"path\": \"README.md\", \"content\": \"complete readme\"},\n    {\"path\": \"NOTION_SOP.md\", \"content\": \"complete SOP\"}\n  ],\n  \"architecture_diagram\": \"mermaid diagram showing system architecture\",\n  \"setup_instructions\": \"Step-by-step setup guide\",\n  \"marketing_copy\": \"Compelling sales page copy explaining the value proposition\"\n}\n\nGenerate professional, production-grade code. No placeholders. No TODOs. Senior engineer quality only.`;\n\nreturn {\n  json: {\n    ...d,\n    prompt: seniorPrompt\n  }\n};"
+      },
+      "id": "prompt_01",
+      "name": "Senior Engineer Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "headerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"anthropic/claude-3.5-sonnet\",\n  \"messages\": [{\"role\": \"user\", \"content\": {{ JSON.stringify($json.prompt) }}}],\n  \"temperature\": 0.3,\n  \"max_tokens\": 8000\n}",
+        "options": {
+          "timeout": 180000
+        }
+      },
+      "id": "llm_01",
+      "name": "Claude API (Code Gen)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst llmResponse = input.choices?.[0]?.message?.content || '';\n\ntry {\n  let jsonStr = llmResponse.replace(/```json\\s*/g, '').replace(/```\\s*$/g, '');\n  const jsonMatch = jsonStr.match(/\\{[\\s\\S]*\\}/);\n  \n  if (!jsonMatch) throw new Error('No JSON found in LLM response');\n  \n  const generated = JSON.parse(jsonMatch[0]);\n  \n  if (!generated.files || !Array.isArray(generated.files)) {\n    throw new Error('Invalid files structure');\n  }\n  \n  return {\n    json: {\n      ...input,\n      generatedFiles: generated.files,\n      architectureDiagram: generated.architecture_diagram || '',\n      setupInstructions: generated.setup_instructions || '',\n      marketingCopy: generated.marketing_copy || '',\n      generatedAt: new Date().toISOString(),\n      status: 'generated'\n    }\n  };\n  \n} catch (error) {\n  return {\n    json: {\n      ...input,\n      error: error.message,\n      status: 'failed',\n      rawResponse: llmResponse.substring(0, 1000),\n      generatedFiles: [],\n      architectureDiagram: '',\n      setupInstructions: '',\n      marketingCopy: ''\n    }\n  };\n}"
+      },
+      "id": "parse_01",
+      "name": "Parse & Validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "value2": "generated"
+            }
+          ]
+        }
+      },
+      "id": "filter_01",
+      "name": "Check Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1450, 400]
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "method": "POST",
+        "url": "https://api.github.com/user/repos",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "token ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.github.v3+json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": {{ JSON.stringify($json.repoName) }},\n  \"description\": {{ JSON.stringify($json.solution) }},\n  \"private\": false,\n  \"auto_init\": true\n}",
+        "options": {}
+      },
+      "id": "github_01",
+      "name": "Create GitHub Repo",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst files = input.generatedFiles || [];\nconst repoFullName = `mohamedsaidyekhlef-png/${input.repoName}`;\n\nconst uploadFile = async (file) => {\n  const content = Buffer.from(file.content).toString('base64');\n  \n  const response = await fetch(\n    `https://api.github.com/repos/${repoFullName}/contents/${file.path}`,\n    {\n      method: 'PUT',\n      headers: {\n        'Authorization': 'token ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',\n        'Accept': 'application/vnd.github.v3+json',\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify({\n        message: `Add ${file.path}`,\n        content: content,\n        branch: 'main'\n      })\n    }\n  );\n  \n  await new Promise(resolve => setTimeout(resolve, 1000));\n  \n  return {\n    path: file.path,\n    status: response.ok ? 'uploaded' : 'failed'\n  };\n};\n\nconst results = await Promise.all(files.map(uploadFile));\n\nreturn {\n  json: {\n    ...input,\n    uploadedFiles: results,\n    repoUrl: `https://github.com/${repoFullName}`,\n    uploadComplete: results.every(r => r.status === 'uploaded')\n  }\n};"
+      },
+      "id": "github_02",
+      "name": "Upload Files to Repo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "method": "POST",
+        "url": "https://api.gumroad.com/v2/products",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer gum_0000000000000000000000000000000000000000000000000000"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": {{ JSON.stringify($json.kitName) }},\n  \"description\": {{ JSON.stringify($json.marketingCopy) }},\n  \"price\": {{ $json.price * 100 }},\n  \"custom_receipt\": {{ JSON.stringify(\"Access your automation kit: \" + $json.repoUrl) }}\n}",
+        "options": {}
+      },
+      "id": "gumroad_01",
+      "name": "Create Gumroad Product",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2050, 300]
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "method": "POST",
+        "url": "https://api.notion.com/v1/pages",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer ntn_0000000000000000000000000000000000000000000000000000"
+            },
+            {
+              "name": "Notion-Version",
+              "value": "2022-06-28"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"parent\": { \"database_id\": \"2b79d3bb648c80f091c6cd3eb1b727cb\" },\n  \"properties\": {\n    \"Name\": { \"title\": [{ \"text\": { \"content\": {{ JSON.stringify($json.kitName) }} } }] },\n    \"Price\": { \"number\": {{ $json.price }} },\n    \"Complexity\": { \"select\": { \"name\": {{ JSON.stringify($json.complexity) }} } },\n    \"Solution\": { \"rich_text\": [{ \"text\": { \"content\": {{ JSON.stringify($json.solution) }} } }] },\n    \"Repo\": { \"url\": {{ JSON.stringify($json.repoUrl) }} },\n    \"Integrations\": { \"number\": {{ $json.integrations.length }} },\n    \"Status\": { \"select\": { \"name\": \"Live\" } },\n    \"Created\": { \"date\": { \"start\": {{ JSON.stringify($json.generatedAt.split('T')[0]) }} } }\n  }\n}",
+        "options": {}
+      },
+      "id": "notion_01",
+      "name": "Log to Notion",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [2250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\n\nconsole.error('Kit Generation Failed:', {\n  kitName: input.kitName,\n  error: input.error,\n  timestamp: new Date().toISOString()\n});\n\nreturn { json: { status: 'error_logged', ...input } };"
+      },
+      "id": "error_01",
+      "name": "Log Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 500]
+    }
+  ],
+  "connections": {
+    "Daily Trigger": {
+      "main": [[{"node": "Problem Database", "type": "main", "index": 0}]]
+    },
+    "Problem Database": {
+      "main": [[{"node": "Kit Metadata Generator", "type": "main", "index": 0}]]
+    },
+    "Kit Metadata Generator": {
+      "main": [[{"node": "Senior Engineer Prompt", "type": "main", "index": 0}]]
+    },
+    "Senior Engineer Prompt": {
+      "main": [[{"node": "Claude API (Code Gen)", "type": "main", "index": 0}]]
+    },
+    "Claude API (Code Gen)": {
+      "main": [[{"node": "Parse & Validate", "type": "main", "index": 0}]]
+    },
+    "Parse & Validate": {
+      "main": [[{"node": "Check Success", "type": "main", "index": 0}]]
+    },
+    "Check Success": {
+      "main": [
+        [{"node": "Create GitHub Repo", "type": "main", "index": 0}],
+        [{"node": "Log Error", "type": "main", "index": 0}]
+      ]
+    },
+    "Create GitHub Repo": {
+      "main": [[{"node": "Upload Files to Repo", "type": "main", "index": 0}]]
+    },
+    "Upload Files to Repo": {
+      "main": [[{"node": "Create Gumroad Product", "type": "main", "index": 0}]]
+    },
+    "Create Gumroad Product": {
+      "main": [[{"node": "Log to Notion", "type": "main", "index": 0}]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

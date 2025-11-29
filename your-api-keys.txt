@@ -1,0 +1,24 @@
+YOUR CREDENTIALS:
+
+1. OpenAI API:
+   - Type: OpenAI
+   - Name: openai-credentials
+   - API Key: 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
+
+2. Gumroad API:
+   - Type: HTTP Header Auth
+   - Name: gumroad-api-credentials
+   - Name: Authorization
+   - Value: Bearer gum_0000000000000000000000000000000000000000000000000000
+
+3. GitHub API:
+   - Type: HTTP Header Auth
+   - Name: github-token-credentials
+   - Name: Authorization
+   - Value: Bearer ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+4. Vercel API:
+   - Type: HTTP Header Auth
+   - Name: vercel-token-credentials
+   - Name: Authorization
+   - Value: Bearer cEgUPGSgUbdb4JxkN0EmrAZ3

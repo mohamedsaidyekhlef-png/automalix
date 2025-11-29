@@ -1,0 +1,390 @@
+{
+  "name": "AUTOMALIX 2026 ALPHA-LOOP — 15min FULL DELIVERY",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 15,
+              "unit": "minutes"
+            }
+          ]
+        }
+      },
+      "name": "EVERY 15 MIN - Brain Cycle",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [250, 400],
+      "id": "cron-15min"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "getAll",
+        "databaseId": "00000000-0000-0000-0000-000000000000",
+        "returnAll": true,
+        "simplify": true
+      },
+      "name": "Get Last Revenue",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [450, 400],
+      "id": "notion-rev",
+      "credentials": {"notionApi": {"id": "1", "name": "Notion API"}}
+    },
+    {
+      "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "modelId": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are Automalix CPO. Find ONE painful automation problem from last 6 hours on X/Twitter, Reddit r/n8n, r/automation. Return ONLY valid JSON."
+            },
+            {
+              "role": "user",
+              "content": "Today: {{new Date().toISOString().split('T')[0]}}. Last sales: {{JSON.stringify($json[0] || {})}}. Find trending pain. Return: {\"title\":\"AI Lead Enrichment Bot\",\"tagline\":\"Auto-enrich 1000 leads/day with AI\",\"base_price_usd\":1299,\"pain_quotes\":[{\"quote\":\"Spent 40h/week on LinkedIn research\",\"source_url\":\"https://x.com/founder123\"}],\"competition_level\":\"low\",\"technical_stack\":[\"n8n\",\"OpenAI\",\"Apollo\"],\"estimated_first_week_revenue\":18000,\"demand_multiplier\":2.8,\"trending_keywords\":[\"lead enrichment\",\"ai sales\"]}"
+            }
+          ]
+        },
+        "options": {"temperature": 0.2, "maxTokens": 2000}
+      },
+      "name": "1. Find Pain (90sec)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [650, 400],
+      "id": "pain",
+      "credentials": {"openAiApi": {"id": "2", "name": "OpenAI"}}
+    },
+    {
+      "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "modelId": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "role": "user",
+              "content": "Product: {{$json.title}}. Base: ${{$json.base_price_usd}}. Demand: {{$json.demand_multiplier}}x. Competition: {{$json.competition_level}}. Time now: {{new Date().getHours()}}h. Calculate price: base × demand × (competition=low?1.3:0.9) × (hour 9-11am EST? 1.15:1.0). Return: {\"final_price_usd\":1599,\"scarcity_cap\":75,\"expected_sales_24h\":15}"
+            }
+          ]
+        },
+        "options": {"temperature": 0.1, "maxTokens": 500}
+      },
+      "name": "2. Price (30sec)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [850, 400],
+      "id": "price"
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = new Date().toISOString().slice(0,10);\nconst t = Date.now();\nconst slug = $input.item.json.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,50);\nreturn {\n  ...$input.item.json,\n  date: d,\n  slug,\n  repo_name: `automalix-${slug}-${t}`,\n  theme: ['indigo','emerald','rose','amber','violet'][Math.floor(Math.random()*5)],\n  timestamp: t\n};"
+      },
+      "name": "Meta (5sec)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 400],
+      "id": "meta"
+    },
+    {
+      "parameters": {
+        "resource": "repository",
+        "operation": "create",
+        "owner": "mohamedsaidyekhlef-png",
+        "repository": "={{$json.repo_name}}",
+        "additionalParameters": {
+          "description": "={{$json.tagline}} — ${{$json.final_price_usd}}",
+          "private": true,
+          "autoInit": true,
+          "gitignoreTemplate": "Node"
+        }
+      },
+      "name": "Create Repo (10sec)",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1250, 400],
+      "id": "repo",
+      "credentials": {"githubApi": {"id": "3", "name": "GitHub"}}
+    },
+    {
+      "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "modelId": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "Generate COMPLETE production Automalix kit. Return valid JSON with ALL files. Be EXTREMELY detailed and production-ready."
+            },
+            {
+              "role": "user",
+              "content": "KIT: {{$json.title}}. Stack: {{JSON.stringify($json.technical_stack)}}. Generate: docker-compose.yml (n8n+postgres), n8n-workflow.json (100+ nodes with REAL logic), demo/package.json, demo/pages/index.tsx (Next.js with {{BUYER_NAME}} {{BUYER_EMAIL}} placeholders), demo/components/Hero.tsx, README.md (one-click deploy buttons for Railway/Render), LICENSE (MIT with buyer fingerprint check), .env.example (all secrets), deploy.sh (full setup script), healthcheck.sh, kit-metadata.json (affiliate tracking), .github/workflows/ci.yml (auto-test), SECURITY.md. Return: {\"docker-compose.yml\":\"version: '3.8'\\nservices:\\n  n8n:...\",\"n8n-workflow.json\":\"{nodes:[{id:1,type:webhook,...}]}\",\"demo/package.json\":\"{name:demo,...}\",\"demo/pages/index.tsx\":\"import React from 'react';export default ()=><div>Welcome {{BUYER_NAME}}</div>\",\"README.md\":\"# {{$json.title}}\\n\\n## Deploy\\n[![Deploy](railway.svg)](https://railway.app/new/template)\"}"
+            }
+          ]
+        },
+        "options": {"temperature": 0, "maxTokens": 16000}
+      },
+      "name": "4. Generate ALL Files (3min)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [1450, 400],
+      "id": "generate"
+    },
+    {
+      "parameters": {
+        "jsCode": "const files = $input.item.json;\nconst fileKeys = Object.keys(files).filter(k => k.includes('.') || k.includes('/'));\nif (fileKeys.length === 0) {\n  return {\n    files: [{\n      path: 'README.md',\n      content: Buffer.from(`# ${$input.item.json.title || 'Kit'}\\n\\nGenerated: ${new Date().toISOString()}`).toString('base64')\n    }],\n    repo: $('Meta (5sec)').first().json.repo_name\n  };\n}\nconst fileArray = fileKeys.slice(0, 20).map(path => ({\n  path: path.replace(/^[\"']|[\"']$/g, ''),\n  content: Buffer.from(String(files[path] || 'Generated content')).toString('base64')\n}));\nreturn {files: fileArray, repo: $('Meta (5sec)').first().json.repo_name};"
+      },
+      "name": "Prepare (10sec)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 400],
+      "id": "prepare"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "create",
+        "owner": "mohamedsaidyekhlef-png",
+        "repository": "={{$json.repo}}",
+        "filePath": "={{$json.files[0].path}}",
+        "fileContent": "={{$json.files[0].content}}",
+        "commitMessage": "feat: initial kit",
+        "additionalParameters": {"binaryData": false}
+      },
+      "name": "Commit README (5sec)",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [1850, 400],
+      "id": "commit1"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "create",
+        "owner": "mohamedsaidyekhlef-png",
+        "repository": "={{$json.repo}}",
+        "filePath": "={{$json.files[1]?.path || 'docker-compose.yml'}}",
+        "fileContent": "={{$json.files[1]?.content || Buffer.from('version: \"3.8\"').toString('base64')}}",
+        "commitMessage": "feat: docker compose"
+      },
+      "name": "Commit Docker (5sec)",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [2050, 400],
+      "id": "commit2"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "create",
+        "owner": "mohamedsaidyekhlef-png",
+        "repository": "={{$json.repo}}",
+        "filePath": "={{$json.files[2]?.path || 'n8n-workflow.json'}}",
+        "fileContent": "={{$json.files[2]?.content || Buffer.from('{\"name\":\"workflow\"}').toString('base64')}}",
+        "commitMessage": "feat: n8n workflow"
+      },
+      "name": "Commit Workflow (5sec)",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [2250, 400],
+      "id": "commit3"
+    },
+    {
+      "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "modelId": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "role": "user",
+              "content": "Write 6-tweet viral thread for: {{$('Meta (5sec)').first().json.title}}. Pain: {{$('Meta (5sec)').first().json.tagline}}. Price: ${{$('Price (30sec)').first().json.final_price_usd}}. Format: 1) Hook (shocking stat) 2-3) Pain amplification 4-5) Solution tease 6) CTA \"Only {{$('Price (30sec)').first().json.scarcity_cap}} licenses → [link]\". Indie hacker voice. Return: {\"tweets\":[\"1/ 🚨 Thread...\",\"2/ Most founders...\"]}"
+            }
+          ]
+        },
+        "options": {"temperature": 0.9, "maxTokens": 1500}
+      },
+      "name": "3. Thread (45sec)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [1250, 200],
+      "id": "thread"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.twitter.com/2/tweets",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "twitterOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"text\": \"{{$json.tweets?.[0] || '🚀 New Automalix kit launching soon! Stay tuned.'}}\"}"
+      },
+      "name": "Post Tweet (10sec)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1450, 200],
+      "id": "tweet"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.gumroad.com/v2/products",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"access_token\":\"gum_0000000000000000000000000000000000000000000000000000\",\"name\":\"{{$('Meta (5sec)').first().json.title}} — Automalix Kit\",\"price\":{{$('Price (30sec)').first().json.final_price_usd * 100}},\"max_purchase_count\":{{$('Price (30sec)').first().json.scarcity_cap}},\"description\":\"✨ One-click deploy\\n🧠 100% personalized\\n🔒 License-protected\\n📊 Auto-updates\\n\\n{{$('Meta (5sec)').first().json.tagline}}\\n\\n⚡ {{$('Price (30sec)').first().json.scarcity_cap}} licenses only\\n\\n🔗 GitHub: github.com/mohamedsaidyekhlef-png/{{$('Meta (5sec)').first().json.repo_name}}\",\"require_shipping\":false,\"webhook\":\"https://n8n.automalix.com/webhook/gumroad-purchase\"}"
+      },
+      "name": "Publish Gumroad (15sec)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2450, 400],
+      "id": "gumroad"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "databaseId": "00000000-0000-0000-0000-000000000000",
+        "title": "={{$('Meta (5sec)').first().json.title}}",
+        "properties": {
+          "customProperties": [
+            {"key": "Price", "numberValue": "={{$('Price (30sec)').first().json.final_price_usd}}"},
+            {"key": "Date", "textContent": "={{$('Meta (5sec)').first().json.date}}"},
+            {"key": "Repo", "textContent": "https://github.com/mohamedsaidyekhlef-png/={{$('Meta (5sec)').first().json.repo_name}}"},
+            {"key": "Gumroad", "textContent": "={{$json.short_url || 'pending'}}"},
+            {"key": "Status", "textContent": "LIVE"}
+          ]
+        }
+      },
+      "name": "Log to Notion (5sec)",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [2650, 400],
+      "id": "log"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gumroad-purchase",
+        "responseMode": "lastNode"
+      },
+      "name": "Webhook: Purchase",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [2850, 400],
+      "webhookId": "gumroad-purchase",
+      "id": "webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const p = $input.item.json.purchase || $input.item.json;\nconst t = Date.now();\nreturn {\n  buyer: {\n    name: p.buyer_name || p.email?.split('@')[0] || 'Buyer',\n    email: p.email || p.buyer_email || 'buyer@example.com',\n    company: p.email?.split('@')[1]?.split('.')[0] || 'Startup',\n    license: `AUTO26-${t}-${Math.random().toString(36).slice(2,8).toUpperCase()}`,\n    purchase_id: p.id || p.purchase_id || 'test-id',\n    amount: (p.price || 99900) / 100,\n    theme: ['indigo','emerald','rose'][Math.floor(Math.random()*3)]\n  },\n  kit_repo: $('Meta (5sec)').first()?.json.repo_name || 'automalix-kit'\n};"
+      },
+      "name": "Extract Buyer (2sec)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [3050, 400],
+      "id": "buyer"
+    },
+    {
+      "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "modelId": "gpt-4o",
+        "messages": {
+          "values": [
+            {
+              "role": "user",
+              "content": "Personalize kit files for buyer: Name={{$json.buyer.name}}, Email={{$json.buyer.email}}, Company={{$json.buyer.company}}, License={{$json.buyer.license}}, Theme={{$json.buyer.theme}}. Replace ALL: {{BUYER_NAME}}→name, {{BUYER_EMAIL}}→email, {{BUYER_COMPANY}}→company, {{LICENSE_KEY}}→license, {{THEME_COLOR}}→theme. Return: {\"demo/pages/index.tsx\":\"personalized tsx\",\"README.md\":\"personalized readme\",\"LICENSE\":\"license with fingerprint\",\".env\":\"personalized env\"}"
+            }
+          ]
+        },
+        "options": {"temperature": 0, "maxTokens": 4000}
+      },
+      "name": "Personalize (90sec)",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [3250, 400],
+      "id": "personalize"
+    },
+    {
+      "parameters": {
+        "resource": "repository",
+        "operation": "get",
+        "owner": "mohamedsaidyekhlef-png",
+        "repository": "={{$json.kit_repo}}"
+      },
+      "name": "Get Repo Info (2sec)",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [3450, 400],
+      "id": "getrepo"
+    },
+    {
+      "parameters": {
+        "fromEmail": "mohamed@automali-x.com",
+        "toEmail": "={{$('Extract Buyer (2sec)').first().json.buyer.email}}",
+        "subject": "🎉 Your {{$('Meta (5sec)').first().json.title}} Kit is LIVE",
+        "emailType": "html",
+        "message": "=<h1>Hey {{$('Extract Buyer (2sec)').first().json.buyer.name}}! 👋</h1>\n\n<p><strong>Your personalized Automalix kit is ready!</strong></p>\n\n<p>🔗 <strong>Private Repo:</strong> <a href=\"https://github.com/mohamedsaidyekhlef-png/{{$('Extract Buyer (2sec)').first().json.kit_repo}}\">Click here</a></p>\n<p>🔑 <strong>License:</strong> <code>{{$('Extract Buyer (2sec)').first().json.buyer.license}}</code></p>\n<p>🎨 <strong>Your Theme:</strong> {{$('Extract Buyer (2sec)').first().json.buyer.theme}}</p>\n\n<p>Your kit includes YOUR name ({{$('Extract Buyer (2sec)').first().json.buyer.name}}), email, and company ({{$('Extract Buyer (2sec)').first().json.buyer.company}}) baked into the demo.</p>\n\n<p>📅 <strong>Book 15min setup:</strong> <a href=\"https://calendly.com/automalix\">calendly.com/automalix</a></p>\n<p>💬 <strong>Join Discord:</strong> <a href=\"https://discord.gg/automalix\">discord.gg/automalix</a></p>\n\n<p>— Mohamed @ Automalix</p>"
+      },
+      "name": "Send Email (5sec)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [3650, 400],
+      "id": "email",
+      "credentials": {"smtp": {"id": "4", "name": "SendGrid"}}
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "databaseId": "00000000-0000-0000-0000-000000000000",
+        "title": "BUYER: {{$('Extract Buyer (2sec)').first().json.buyer.email}}",
+        "properties": {
+          "customProperties": [
+            {"key": "Email", "textContent": "={{$('Extract Buyer (2sec)').first().json.buyer.email}}"},
+            {"key": "License", "textContent": "={{$('Extract Buyer (2sec)').first().json.buyer.license}}"},
+            {"key": "Amount", "numberValue": "={{$('Extract Buyer (2sec)').first().json.buyer.amount}}"},
+            {"key": "Kit", "textContent": "={{$('Meta (5sec)').first().json.title}}"}
+          ]
+        }
+      },
+      "name": "Log Buyer (5sec)",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2,
+      "position": [3850, 400],
+      "id": "logbuyer"
+    }
+  ],
+  "connections": {
+    "EVERY 15 MIN - Brain Cycle": {"main": [[{"node": "Get Last Revenue", "type": "main", "index": 0}]]},
+    "Get Last Revenue": {"main": [[{"node": "1. Find Pain (90sec)", "type": "main", "index": 0}]]},
+    "1. Find Pain (90sec)": {"main": [[{"node": "2. Price (30sec)", "type": "main", "index": 0}]]},
+    "2. Price (30sec)": {"main": [[{"node": "Meta (5sec)", "type": "main", "index": 0}]]},
+    "Meta (5sec)": {"main": [[{"node": "Create Repo (10sec)", "type": "main", "index": 0}, {"node": "3. Thread (45sec)", "type": "main", "index": 0}]]},
+    "3. Thread (45sec)": {"main": [[{"node": "Post Tweet (10sec)", "type": "main", "index": 0}]]},
+    "Create Repo (10sec)": {"main": [[{"node": "4. Generate ALL Files (3min)", "type": "main", "index": 0}]]},
+    "4. Generate ALL Files (3min)": {"main": [[{"node": "Prepare (10sec)", "type": "main", "index": 0}]]},
+    "Prepare (10sec)": {"main": [[{"node": "Commit README (5sec)", "type": "main", "index": 0}]]},
+    "Commit README (5sec)": {"main": [[{"node": "Commit Docker (5sec)", "type": "main", "index": 0}]]},
+    "Commit Docker (5sec)": {"main": [[{"node": "Commit Workflow (5sec)", "type": "main", "index": 0}]]},
+    "Commit Workflow (5sec)": {"main": [[{"node": "Publish Gumroad (15sec)", "type": "main", "index": 0}]]},
+    "Publish Gumroad (15sec)": {"main": [[{"node": "Log to Notion (5sec)", "type": "main", "index": 0}]]},
+    "Webhook: Purchase": {"main": [[{"node": "Extract Buyer (2sec)", "type": "main", "index": 0}]]},
+    "Extract Buyer (2sec)": {"main": [[{"node": "Personalize (90sec)", "type": "main", "index": 0}]]},
+    "Personalize (90sec)": {"main": [[{"node": "Get Repo Info (2sec)", "type": "main", "index": 0}]]},
+    "Get Repo Info (2sec)": {"main": [[{"node": "Send Email (5sec)", "type": "main", "index": 0}]]},
+    "Send Email (5sec)": {"main": [[{"node": "Log Buyer (5sec)", "type": "main", "index": 0}]]}
+  },
+  "pinData": {},
+  "settings": {"executionOrder": "v1"},
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-11-27T00:00:00.000Z",
+  "versionId": "2"
+}
