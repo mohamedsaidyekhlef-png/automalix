@@ -1,9 +1,9 @@
 export interface Product {
   id: string;
   title: string;
-  category: 'Automation Pack' | 'AI Kit' | 'Business-in-a-Box' | 'White Label' | 'SaaS Kit' | 'Audit-Ready' | 'Course' | 'Notion OS';
+  category: 'Automation Pack' | 'AI Kit' | 'Business-in-a-Box' | 'White Label' | 'SaaS Kit' | 'Audit-Ready' | 'Course' | 'Notion OS' | 'Data Analysis';
   niche: ('Real Estate' | 'E-commerce' | 'Marketing' | 'SaaS' | 'Finance' | 'Health & Legal' | 'General')[];
-  tools: ('n8n' | 'Make' | 'Zapier' | 'Airtable' | 'Notion API' | 'Python' | 'Node.js')[];
+  tools: ('n8n' | 'Make' | 'Zapier' | 'Airtable' | 'Notion API' | 'Python' | 'Node.js' | 'Looker Studio' | 'Google Sheets')[];
   complexity: 'Beginner' | 'Intermediate' | 'Expert';
   integrations: string[];
   price: number;
@@ -19,6 +19,60 @@ export interface Product {
 }
 
 export const products: Product[] = [
+  // Data Analysis (NEW)
+  {
+    id: 'ga4-reporting-suite',
+    title: 'GA4 Automated Reporting Suite',
+    category: 'Data Analysis',
+    niche: ['Marketing', 'SaaS', 'E-commerce'],
+    tools: ['n8n', 'Looker Studio', 'Google Sheets'],
+    complexity: 'Intermediate',
+    integrations: ['Google Analytics 4', 'Slack', 'Gmail'],
+    price: 149,
+    description: 'Stop manually exporting CSVs. This workflow pulls GA4 metrics daily, processes them in n8n, and updates a client-ready Looker Studio dashboard.',
+    features: ['Auto-refreshing Dashboard', 'Client Email Summaries', 'Custom Event Tracking', 'Looker Studio Template'],
+    tags: ['Analytics', 'Reporting', 'Agency', 'Launch-Ready Guarantee'],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1000',
+    rating: 4.9,
+    reviews: 64,
+    isNew: true,
+    hasGuarantee: true
+  },
+  {
+    id: 'ecom-cohort-analysis',
+    title: 'E-com Cohort Analysis Kit',
+    category: 'Data Analysis',
+    niche: ['E-commerce', 'Finance'],
+    tools: ['Python', 'Node.js'],
+    complexity: 'Expert',
+    integrations: ['Stripe', 'Shopify', 'Pandas'],
+    price: 249,
+    description: 'Advanced Python script that pulls Stripe/Shopify data to generate LTV and retention cohort heatmaps. Essential for raising capital.',
+    features: ['LTV Calculation', 'Retention Heatmaps', 'Churn Prediction', 'Jupyter Notebook Included'],
+    tags: ['Data Science', 'E-commerce', 'Growth'],
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1000',
+    rating: 5.0,
+    reviews: 28,
+    hasGuarantee: true
+  },
+  {
+    id: 'sentiment-analyzer',
+    title: 'Social Sentiment Analyzer',
+    category: 'Data Analysis',
+    niche: ['Marketing', 'SaaS'],
+    tools: ['Make', 'Airtable'],
+    complexity: 'Intermediate',
+    integrations: ['OpenAI', 'Twitter/X', 'Reddit'],
+    price: 129,
+    description: 'Analyzes brand mentions on Twitter & Reddit, scores sentiment using GPT-4, and categorizes feedback in Airtable for product teams.',
+    features: ['Real-time Monitoring', 'GPT-4 Sentiment Scoring', 'Crisis Alerts', 'Competitor Tracking'],
+    tags: ['AI', 'Social Media', 'Brand Reputation'],
+    image: 'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=1000',
+    rating: 4.7,
+    reviews: 42,
+    hasGuarantee: true
+  },
+
   // Audit-Ready / Compliance
   {
     id: 'gdpr-deletion-pack',

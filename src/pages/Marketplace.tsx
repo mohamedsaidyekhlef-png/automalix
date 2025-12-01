@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, Fragment } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, SlidersHorizontal, Check, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { products, Product } from '../data/products';
@@ -6,6 +6,7 @@ import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
+import { AdUnit } from '../components/ads/AdUnit';
 
 // Filter Types
 type SortOption = 'best-match' | 'price-asc' | 'price-desc' | 'newest' | 'rating';
@@ -131,14 +132,10 @@ export function Marketplace() {
         </div>
       </div>
 
-      {/* Custom CTA */}
-      <GlassCard className="p-6 bg-gradient-to-br from-tech-darker to-tech-surface border-tech-accent/20 mt-8">
-        <h4 className="font-bold text-tech-accent mb-2">Enterprise?</h4>
-        <p className="text-xs text-gray-400 mb-4">
-          Need a custom audit-ready system built for your compliance team?
-        </p>
-        <Button size="sm" variant="outline" className="w-full text-xs">Contact Sales</Button>
-      </GlassCard>
+      {/* Sidebar Ad */}
+      <div className="mt-8">
+        <AdUnit variant="sidebar" />
+      </div>
     </div>
   );
 
@@ -248,64 +245,73 @@ export function Marketplace() {
           <div className="lg:col-span-3">
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <Link to={`/products/${product.id}`} key={product.id}>
-                    <GlassCard hoverEffect className="h-full flex flex-col group relative overflow-hidden">
-                      {/* Badges */}
-                      <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
-                         {product.category === 'Audit-Ready' && (
-                          <span className="px-2 py-1 rounded bg-red-500/90 backdrop-blur-md text-white text-[10px] font-bold uppercase shadow-lg">
-                            Audit Ready
-                          </span>
-                        )}
-                        {product.isBestSeller && (
-                          <span className="px-2 py-1 rounded bg-yellow-500/90 backdrop-blur-md text-black text-[10px] font-bold uppercase shadow-lg">
-                            Best Seller
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="relative h-48 overflow-hidden border-b border-white/10">
-                        <img 
-                          src={product.image} 
-                          alt={product.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
-                        {/* Overlay on hover */}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <Button size="sm" variant="glow">View Details</Button>
-                        </div>
-                      </div>
-
-                      <div className="p-5 flex-1 flex flex-col">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex gap-2">
-                             {product.tools.slice(0, 2).map(t => (
-                               <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-gray-300 border border-white/5">{t}</span>
-                             ))}
-                          </div>
-                          <div className="flex items-center gap-1 text-yellow-400 text-xs">
-                            <span>★</span> <span>{product.rating}</span>
-                          </div>
-                        </div>
-
-                        <h3 className="font-bold mb-2 text-lg leading-tight group-hover:text-tech-accent transition-colors">{product.title}</h3>
-                        <p className="text-gray-400 text-xs mb-4 line-clamp-2 flex-1">{product.description}</p>
-                        
-                        <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
-                          <div className="flex flex-col">
-                             <span className="text-[10px] text-gray-500 uppercase tracking-wider">One-time</span>
-                             <span className="font-bold text-white text-lg">${product.price}</span>
-                          </div>
-                          {product.hasGuarantee && (
-                            <div className="flex items-center gap-1 text-[10px] text-green-400 bg-green-400/10 px-2 py-1 rounded-full border border-green-400/20">
-                               <Check size={10} /> Guaranteed
-                            </div>
+                {filteredProducts.map((product, index) => (
+                  <Fragment key={product.id}>
+                    <Link to={`/products/${product.id}`}>
+                      <GlassCard hoverEffect className="h-full flex flex-col group relative overflow-hidden">
+                        {/* Badges */}
+                        <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
+                           {product.category === 'Audit-Ready' && (
+                            <span className="px-2 py-1 rounded bg-red-500/90 backdrop-blur-md text-white text-[10px] font-bold uppercase shadow-lg">
+                              Audit Ready
+                            </span>
+                          )}
+                          {product.isBestSeller && (
+                            <span className="px-2 py-1 rounded bg-yellow-500/90 backdrop-blur-md text-black text-[10px] font-bold uppercase shadow-lg">
+                              Best Seller
+                            </span>
                           )}
                         </div>
+
+                        <div className="relative h-48 overflow-hidden border-b border-white/10">
+                          <img 
+                            src={product.image} 
+                            alt={product.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                          {/* Overlay on hover */}
+                          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <Button size="sm" variant="glow">View Details</Button>
+                          </div>
+                        </div>
+
+                        <div className="p-5 flex-1 flex flex-col">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex gap-2">
+                               {product.tools.slice(0, 2).map(t => (
+                                 <span key={t} className="text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-gray-300 border border-white/5">{t}</span>
+                               ))}
+                            </div>
+                            <div className="flex items-center gap-1 text-yellow-400 text-xs">
+                              <span>★</span> <span>{product.rating}</span>
+                            </div>
+                          </div>
+
+                          <h3 className="font-bold mb-2 text-lg leading-tight group-hover:text-tech-accent transition-colors">{product.title}</h3>
+                          <p className="text-gray-400 text-xs mb-4 line-clamp-2 flex-1">{product.description}</p>
+                          
+                          <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
+                            <div className="flex flex-col">
+                               <span className="text-[10px] text-gray-500 uppercase tracking-wider">One-time</span>
+                               <span className="font-bold text-white text-lg">${product.price}</span>
+                            </div>
+                            {product.hasGuarantee && (
+                              <div className="flex items-center gap-1 text-[10px] text-green-400 bg-green-400/10 px-2 py-1 rounded-full border border-green-400/20">
+                                 <Check size={10} /> Guaranteed
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </GlassCard>
+                    </Link>
+                    
+                    {/* Insert Ad after every 6th product */}
+                    {(index + 1) % 6 === 0 && (
+                      <div className="md:col-span-2 xl:col-span-1">
+                        <AdUnit variant="card" />
                       </div>
-                    </GlassCard>
-                  </Link>
+                    )}
+                  </Fragment>
                 ))}
               </div>
             ) : (

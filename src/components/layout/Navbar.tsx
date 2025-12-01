@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Zap, Box, Users, Shield, GraduationCap, Search, Wrench, LogOut, ChevronRight, User as UserIcon, ArrowRight } from 'lucide-react';
+import { Menu, X, Box, Users, Shield, GraduationCap, Search, Wrench, LogOut, ChevronRight, ArrowRight, BookOpen } from 'lucide-react';
 import { Button } from '../ui/Button';
+import { Logo } from '../ui/Logo';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
 
@@ -39,6 +40,7 @@ export function Navbar() {
     { name: 'Vault', path: '/vault', icon: Shield, desc: 'Subscription Access' },
     { name: 'Academy', path: '/academy', icon: GraduationCap, desc: 'Learn & Grow' },
     { name: 'White Label', path: '/white-label', icon: Users, desc: 'Agency Reseller Rights' },
+    { name: 'Blog', path: '/blog', icon: BookOpen, desc: 'Guides & Insights' },
     { name: 'API Checker', path: '/resources/api-checker', icon: Wrench, desc: 'Free Tool' },
   ];
 
@@ -73,14 +75,8 @@ export function Navbar() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group relative z-[60]">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-tech-primary to-tech-secondary flex items-center justify-center shadow-lg shadow-tech-primary/20 group-hover:shadow-tech-primary/40 transition-all">
-              <Zap className="text-white fill-white" size={20} />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-white leading-none tracking-tight">AUTOMALIX</span>
-              <span className="text-xs text-tech-accent font-medium tracking-widest">HQ</span>
-            </div>
+          <Link to="/" className="relative z-[60]">
+            <Logo />
           </Link>
 
           {/* Desktop Nav */}
@@ -91,7 +87,7 @@ export function Navbar() {
                 to={link.path}
                 className={cn(
                   "text-sm font-medium transition-colors flex items-center gap-2",
-                  location.pathname === link.path ? "text-white" : "text-gray-400 hover:text-white"
+                  location.pathname === link.path || location.pathname.startsWith(link.path + '/') ? "text-white" : "text-gray-400 hover:text-white"
                 )}
               >
                 {link.name === 'API Checker' && <Wrench size={14} className="text-tech-accent" />}

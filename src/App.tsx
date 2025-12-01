@@ -8,8 +8,11 @@ import { Vault } from './pages/Vault';
 import { Marketplace } from './pages/Marketplace';
 import { WhiteLabel } from './pages/WhiteLabel';
 import { Academy } from './pages/Academy';
+import { Blog } from './pages/Blog';
+import { BlogPost } from './pages/BlogPost';
 import { AuditReadyPage } from './pages/categories/AuditReadyPage';
 import { ApiCheckerPage } from './pages/resources/ApiCheckerPage';
+import { HireExpert } from './pages/services/HireExpert';
 import { Login } from './pages/auth/Login';
 import { Signup } from './pages/auth/Signup';
 import { AuthProvider } from './context/AuthContext';
@@ -40,8 +43,11 @@ function App() {
               <Route path="/vault" element={<Vault />} />
               <Route path="/white-label" element={<WhiteLabel />} />
               <Route path="/academy" element={<Academy />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/audit-ready" element={<AuditReadyPage />} />
               <Route path="/resources/api-checker" element={<ApiCheckerPage />} />
+              <Route path="/hire-expert" element={<HireExpert />} />
               
               {/* Auth Routes */}
               <Route path="/login" element={<Login />} />

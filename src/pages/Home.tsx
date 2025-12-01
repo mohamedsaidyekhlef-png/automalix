@@ -6,6 +6,7 @@ import { products } from '../data/products';
 import { Link } from 'react-router-dom';
 import { GuaranteeSection } from '../components/sections/GuaranteeSection';
 import { AuditReadyHighlight } from '../components/sections/AuditReadyHighlight';
+import { AdUnit } from '../components/ads/AdUnit';
 
 export function Home() {
   return (
@@ -78,6 +79,11 @@ export function Home() {
       {/* Guarantee Teaser */}
       <div className="container mx-auto px-4 md:px-6 mb-16 md:mb-20">
         <GuaranteeSection />
+      </div>
+
+      {/* Ad Banner */}
+      <div className="container mx-auto px-4 md:px-6 mb-16">
+        <AdUnit variant="banner" />
       </div>
 
       {/* Stats / Social Proof */}

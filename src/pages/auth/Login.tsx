@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Zap, Mail, Lock, ArrowRight, Github, Chrome } from 'lucide-react';
+import { Mail, Lock, Github, Chrome } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { GlassCard } from '../../components/ui/GlassCard';
+import { Logo } from '../../components/ui/Logo';
 import { useAuth } from '../../context/AuthContext';
 
 export function Login() {
@@ -30,11 +30,8 @@ export function Login() {
 
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-6 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-tech-primary to-tech-secondary flex items-center justify-center shadow-lg shadow-tech-primary/20 group-hover:shadow-tech-primary/40 transition-all">
-              <Zap className="text-white fill-white" size={20} />
-            </div>
-            <span className="text-2xl font-bold text-white">AUTOMALIX</span>
+          <Link to="/" className="inline-flex items-center justify-center mb-6">
+            <Logo size="lg" />
           </Link>
           <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
           <p className="text-gray-400">Enter your credentials to access the Vault.</p>
