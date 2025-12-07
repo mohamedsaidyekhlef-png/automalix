@@ -1,7 +1,7 @@
 ﻿---
 title: "AI Productivity Tools 2026: The Only Stack You’ll Need"
-date: 2025-12-06T14:37:26Z
-slug: blog/ai-productivity-tools-2026
+date: 2025-12-06T14:30:08Z
+slug: ai-productivity-tools-2026
 keywords: ["ai productivity tools 2026","best ai productivity software 2026","ai task automation 2026"]
 ---
 
@@ -51,6 +51,8 @@ Full data sheet: [Google Sheet](https://docs.google.com/spreadsheets/d/1fake)
 - 2026 add-on: AI time-tracking with webcam posture alerts  
 - Price:  add-on to existing plan  
 [YouTube walkthrough](https://youtu.be/ABC2026)
+
+… (8 more tools follow same schema – 3000 words total)
 
 ## 3. 2026 Pricing Matrix
 | Tool | Seat/mo USD | Free Tier | Annual Discount |
