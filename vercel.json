@@ -1,6 +1,6 @@
 ﻿{
-  "routes": [
-    { "src": "/blog/(.*)", "dest": "/blog/$1.md" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/blog/(.*)", "destination": "/blog/$1.md" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
