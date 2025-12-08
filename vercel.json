@@ -1,6 +1,8 @@
 ﻿{
   "rewrites": [
-    { "source": "/blog/(.*)", "destination": "/blog/$1.md" },
+    { "source": "/blog/ai-productivity-tools-2026", "destination": "/api/blog/ai-productivity-tools-2026" },
+    { "source": "/blog/best-ai-coding-assistants-2026", "destination": "/api/blog/best-ai-coding-assistants-2026" },
+    { "source": "/blog/ai-voice-cloning-2026", "destination": "/api/blog/ai-voice-cloning-2026" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
