@@ -1,6 +1,6 @@
 {
     "active":  false,
-    "name":  "Automation Brain™ - Expert Vetted Factory",
+    "name":  "Automation Brainâ„¢ - Expert Vetted Factory",
     "connections":  {
                         "Expert AI Concepts":  {
                                                    "main":  [
@@ -147,7 +147,7 @@
                                        300
                                    ],
                       "parameters":  {
-                                         "jsCode":  "// Marketing Content Generator\nconst generateMarketing = (template) =\u003e {\n  return {\n    template: template.template,\n    marketing_content: {\n      title: template.template.name + \u0027 - Expert Vetted Enterprise Automation™\u0027,\n      description: \u0027Expert-vetted enterprise automation pack with GDPR, SOC2, HIPAA compliance. + ROI guarantee.\u0027,\n      price: template.template.pricing,\n      slug: \u0027enterprise-ai-governance-framework\u0027\n    }\n  };\n};\n\nreturn generateMarketing({{  }});"
+                                         "jsCode":  "// Marketing Content Generator\nconst generateMarketing = (template) =\u003e {\n  return {\n    template: template.template,\n    marketing_content: {\n      title: template.template.name + \u0027 - Expert Vetted Enterprise Automationâ„¢\u0027,\n      description: \u0027Expert-vetted enterprise automation pack with GDPR, SOC2, HIPAA compliance. + ROI guarantee.\u0027,\n      price: template.template.pricing,\n      slug: \u0027enterprise-ai-governance-framework\u0027\n    }\n  };\n};\n\nreturn generateMarketing({{  }});"
                                      },
                       "typeVersion":  "1"
                   },
@@ -211,7 +211,7 @@
                                          "bodyParameters":  {
                                                                 "parameters":  [
                                                                                    {
-                                                                                       "value":  "{{.template.name}} - Expert Vetted Enterprise Automation™",
+                                                                                       "value":  "{{.template.name}} - Expert Vetted Enterprise Automationâ„¢",
                                                                                        "name":  "name"
                                                                                    },
                                                                                    {

@@ -1,5 +1,5 @@
 # Add credentials to n8n via API
-Write-Host "?? Adding credentials to Automation Brain™..." -ForegroundColor Green
+Write-Host "?? Adding credentials to Automation Brainâ„¢..." -ForegroundColor Green
 
 # Function to add credential via n8n API
 function Add-N8NCredential {

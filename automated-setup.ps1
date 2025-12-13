@@ -2,7 +2,7 @@
 $n8nUrl = "http://localhost:5678"
 $workflowFile = "C:\automation-brain\workflows\expert-vetted-automation-factory.json"
 
-Write-Host "?? Setting up Automation Brain™ via n8n API..." -ForegroundColor Green
+Write-Host "?? Setting up Automation Brainâ„¢ via n8n API..." -ForegroundColor Green
 
 # Wait for n8n to be ready
 Write-Host "Waiting for n8n to initialize..." -ForegroundColor Yellow
@@ -22,7 +22,7 @@ Write-Host "Importing expert workflow..." -ForegroundColor Yellow
 
 $workflowContent = Get-Content $workflowFile -Raw
 $workflowJson = $workflowContent | ConvertFrom-Json
-$workflowJson.name = "Automation Brain™ - Expert Vetted Factory"
+$workflowJson.name = "Automation Brainâ„¢ - Expert Vetted Factory"
 
 # Create workflow via API
 $workflowPayload = @{
@@ -103,5 +103,5 @@ try {
     Write-Host "? Gumroad credential failed: $($_.Exception.Message)" -ForegroundColor Red
 }
 
-Write-Host "?? Setup complete! Your Automation Brain™ is ready!" -ForegroundColor Green
+Write-Host "?? Setup complete! Your Automation Brainâ„¢ is ready!" -ForegroundColor Green
 Write-Host "Next: Test the workflow by running it manually in n8n" -ForegroundColor Yellow

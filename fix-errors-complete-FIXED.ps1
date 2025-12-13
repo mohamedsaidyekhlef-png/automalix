@@ -1,5 +1,5 @@
-# Complete error fixing for Automation Brain™
-Write-Host "?? FIXING AUTOMATION BRAIN™ ERRORS..." -ForegroundColor Green
+# Complete error fixing for Automation Brainâ„¢
+Write-Host "?? FIXING AUTOMATION BRAINâ„¢ ERRORS..." -ForegroundColor Green
 
 # 1. Test all API connections
 Write-Host "`n?? TESTING API CONNECTIONS..." -ForegroundColor Yellow
@@ -63,7 +63,7 @@ try {
 
 # Create manual Gumroad product
 $manualProduct = @{
-    title = "Enterprise AI Governance Framework - Expert Vetted Automation™"
+    title = "Enterprise AI Governance Framework - Expert Vetted Automationâ„¢"
     description = "Expert-vetted enterprise automation with comprehensive compliance framework including GDPR, SOC2, HIPAA, and SOX."
     price = 2500
     url = "https://gumroad.com/l/expert-ai-governance-framework"
@@ -91,7 +91,7 @@ $successSummary = @{
     platforms_deployed = @("GitHub", "Gumroad", "Vercel")
 }
 
-Write-Host "? AUTOMATION BRAIN™ SETUP COMPLETE!" -ForegroundColor Green
+Write-Host "? AUTOMATION BRAINâ„¢ SETUP COMPLETE!" -ForegroundColor Green
 Write-Host "???????????????????????????????????????" -ForegroundColor Green
 Write-Host "?? Expert-vetted template published successfully!" -ForegroundColor Cyan
 Write-Host "?? GitHub: Expert template with certification" -ForegroundColor Green

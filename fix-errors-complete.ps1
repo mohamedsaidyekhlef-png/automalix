@@ -1,5 +1,5 @@
-# Comprehensive error fixing for Automation Brain™
-Write-Host "?? FIXING AUTOMATION BRAIN™ ERRORS..." -ForegroundColor Green
+# Comprehensive error fixing for Automation Brainâ„¢
+Write-Host "?? FIXING AUTOMATION BRAINâ„¢ ERRORS..." -ForegroundColor Green
 
 # 1. Test all API connections
 Write-Host "`n?? TESTING API CONNECTIONS..." -ForegroundColor Yellow
@@ -64,7 +64,7 @@ try {
 Write-Host "`n?? CREATING MANUAL GUMROAD PRODUCT..." -ForegroundColor Yellow
 
 $manualProduct = @{
-    title = "Enterprise AI Governance Framework - Expert Vetted Automation™"
+    title = "Enterprise AI Governance Framework - Expert Vetted Automationâ„¢"
     description = "Expert-vetted enterprise automation with comprehensive compliance framework including GDPR, SOC2, HIPAA, and SOX."
     price = 2500
     url = "https://gumroad.com/l/expert-ai-governance-framework"
@@ -82,41 +82,41 @@ Write-Host "?? Product URL: $($manualProduct.url)" -ForegroundColor Cyan
 Write-Host "`n?? CREATING ENHANCED MARKETING CONTENT..." -ForegroundColor Yellow
 
 $enhancedMarketing = @{
-    title = "Enterprise AI Governance Framework - Expert Vetted Automation™"
+    title = "Enterprise AI Governance Framework - Expert Vetted Automationâ„¢"
     description = @"
 ?? EXPERT-VETTED ENTERPRISE AUTOMATION PACK
 
 ? CERTIFICATION: Expert-Vetted (9.5/10 score)
-? COMPLIANCE: GDPR • SOC2 • HIPAA • SOX
+? COMPLIANCE: GDPR â€¢ SOC2 â€¢ HIPAA â€¢ SOX
 ? ROI GUARANTEE: $250K+ within 12 months
 ? SUPPORT: 60-day expert support included
 
 ?? WHAT YOU GET:
-• Complete n8n workflow templates
-• Comprehensive documentation
-• Compliance certificates
-• Marketing materials
-• Lifetime updates
-• 24/7 priority support
+â€¢ Complete n8n workflow templates
+â€¢ Comprehensive documentation
+â€¢ Compliance certificates
+â€¢ Marketing materials
+â€¢ Lifetime updates
+â€¢ 24/7 priority support
 
 ?? PERFECT FOR:
-• Fortune 500 companies
-• Compliance-driven organizations
-• Enterprise IT teams
-• Risk-averse enterprises
+â€¢ Fortune 500 companies
+â€¢ Compliance-driven organizations
+â€¢ Enterprise IT teams
+â€¢ Risk-averse enterprises
 
 ?? EXPERT VETTING INCLUDES:
-• Principal Architect review
-• Fortune 500 testing
-• Compliance validation
-• Quality assurance (9.5/10 score)
-• Professional certification
+â€¢ Principal Architect review
+â€¢ Fortune 500 testing
+â€¢ Compliance validation
+â€¢ Quality assurance (9.5/10 score)
+â€¢ Professional certification
 
 ?? GUARANTEED RESULTS:
-• 40+ hours/month time savings
-• $50K+ compliance cost reduction
-• 10x faster implementation
-• 99.9% uptime reliability
+â€¢ 40+ hours/month time savings
+â€¢ $50K+ compliance cost reduction
+â€¢ 10x faster implementation
+â€¢ 99.9% uptime reliability
 "@
 
 Write-Host "? Enhanced marketing content created!" -ForegroundColor Green
@@ -137,7 +137,7 @@ $successSummary = @{
     platforms_deployed = @("GitHub", "Gumroad", "Vercel")
 }
 
-Write-Host "? AUTOMATION BRAIN™ SETUP COMPLETE!" -ForegroundColor Green
+Write-Host "? AUTOMATION BRAINâ„¢ SETUP COMPLETE!" -ForegroundColor Green
 Write-Host "???????????????????????????????????????" -ForegroundColor Green
 Write-Host "?? Expert-vetted template published successfully!" -ForegroundColor Cyan
 Write-Host "?? GitHub: Expert template with certification" -ForegroundColor Green

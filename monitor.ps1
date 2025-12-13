@@ -1,7 +1,7 @@
 # Automation Brain Monitoring Dashboard
 while ($true) {
     Clear-Host
-    Write-Host "?? AUTOMATION BRAIN™ MONITORING DASHBOARD" -ForegroundColor Green
+    Write-Host "?? AUTOMATION BRAINâ„¢ MONITORING DASHBOARD" -ForegroundColor Green
     Write-Host "=========================================" -ForegroundColor Green
     Write-Host "Last updated: $(Get-Date)" -ForegroundColor Cyan
     
@@ -18,9 +18,9 @@ while ($true) {
     Write-Host "Check manually at: http://localhost:5678" -ForegroundColor Cyan
     
     Write-Host "`n?? WHAT TO MONITOR:" -ForegroundColor White
-    Write-Host "• New files in GitHub: https://github.com/mohamedsaidyekhlef-png/automalix" -ForegroundColor Gray
-    Write-Host "• New products on Gumroad: https://gumroad.com/mohamedsaidyekhlef-png" -ForegroundColor Gray
-    Write-Host "• Vercel deployments: https://vercel.com/dashboard" -ForegroundColor Gray
+    Write-Host "â€¢ New files in GitHub: https://github.com/mohamedsaidyekhlef-png/automalix" -ForegroundColor Gray
+    Write-Host "â€¢ New products on Gumroad: https://gumroad.com/mohamedsaidyekhlef-png" -ForegroundColor Gray
+    Write-Host "â€¢ Vercel deployments: https://vercel.com/dashboard" -ForegroundColor Gray
     
     Write-Host "`n? Refreshing in 30 seconds..." -ForegroundColor DarkGray
     Start-Sleep -Seconds 30

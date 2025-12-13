@@ -1,5 +1,5 @@
 # Terminal-Based Automation Brain Execution
-Write-Host "?? EXECUTING AUTOMATION BRAIN™ VIA TERMINAL" -ForegroundColor Green
+Write-Host "?? EXECUTING AUTOMATION BRAINâ„¢ VIA TERMINAL" -ForegroundColor Green
 Write-Host "==========================================" -ForegroundColor Green
 
 # Function to execute automation steps directly
@@ -60,7 +60,7 @@ Execute-AutomationStep "DIRECT GITHUB UPLOAD" {
 # STEP 2: Direct Gumroad Upload via API  
 Execute-AutomationStep "DIRECT GUMROAD UPLOAD" {
     $marketingContent = @{
-        name = "Enterprise AI Governance Framework - Expert Vetted Enterprise Automation™"
+        name = "Enterprise AI Governance Framework - Expert Vetted Enterprise Automationâ„¢"
         description = @"
 Expert-vetted enterprise automation pack with GDPR, SOC2, HIPAA compliance. 
 
@@ -73,17 +73,17 @@ KEY FEATURES:
 ? 24/7 priority support included
 
 PERFECT FOR:
-• Fortune 500 Companies
-• Enterprise IT Teams  
-• Compliance-Driven Organizations
-• Risk-Averse Enterprises
+â€¢ Fortune 500 Companies
+â€¢ Enterprise IT Teams  
+â€¢ Compliance-Driven Organizations
+â€¢ Risk-Averse Enterprises
 
 DELIVERABLES:
-• Complete n8n workflow templates
-• Comprehensive documentation
-• Compliance certificates
-• Step-by-step implementation guide
-• 24/7 expert support
+â€¢ Complete n8n workflow templates
+â€¢ Comprehensive documentation
+â€¢ Compliance certificates
+â€¢ Step-by-step implementation guide
+â€¢ 24/7 expert support
 "@
         price = 250000  # $2500 in cents
         currency = "usd"
@@ -116,7 +116,7 @@ Execute-AutomationStep "TRIGGER VERCEL DEPLOYMENT" {
 # STEP 4: Generate Marketing Content
 Execute-AutomationStep "GENERATE MARKETING CONTENT" {
     $seoContent = @{
-        title = "Enterprise AI Governance Framework - Expert Vetted Enterprise Automation™"
+        title = "Enterprise AI Governance Framework - Expert Vetted Enterprise Automationâ„¢"
         description = "Expert-vetted enterprise automation pack with GDPR, SOC2, HIPAA compliance. $250K+ ROI guarantee. Fortune 500 ready."
         keywords = "enterprise automation template, expert vetted n8n workflow, fortune 500 automation pack, compliance ready automation, senior level automation template"
         meta_description = "Expert-vetted Enterprise AI Governance Framework - Enterprise automation pack with GDPR, SOC2, HIPAA compliance. $250K+ ROI guarantee. 60-day support. Fortune 500 ready."
@@ -146,7 +146,7 @@ Execute-AutomationStep "CREATE SUCCESS SUMMARY" {
     }
 
     Write-Host @"
-?? AUTOMATION BRAIN™ EXECUTION COMPLETE!
+?? AUTOMATION BRAINâ„¢ EXECUTION COMPLETE!
 ???????????????????????????????????????
 ? Expert-vetted template published: $($successData.template_name)
 ? Certification Level: $($successData.certification_level)
@@ -156,7 +156,7 @@ Execute-AutomationStep "CREATE SUCCESS SUMMARY" {
 ? Expert Vetted: $($successData.expert_vetted)
 ? Fortune 500 Ready: $($successData.fortune_500_ready)
 
-?? Your Automation Brain™ is now LIVE!
+?? Your Automation Brainâ„¢ is now LIVE!
 ? Generates expert-vetted templates automatically
 ? Auto-deploys to multiple platforms
 ? Creates professional marketing content
@@ -164,5 +164,5 @@ Execute-AutomationStep "CREATE SUCCESS SUMMARY" {
 "@ -ForegroundColor Green
 }
 
-Write-Host "? AUTOMATION BRAIN™ TERMINAL EXECUTION COMPLETE!" -ForegroundColor Green
+Write-Host "? AUTOMATION BRAINâ„¢ TERMINAL EXECUTION COMPLETE!" -ForegroundColor Green
 Write-Host "?? Your expert-vetted automation factory is now running!" -ForegroundColor Cyan

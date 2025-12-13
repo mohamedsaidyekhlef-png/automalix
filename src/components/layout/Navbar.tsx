@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Zap, Box, Users, Shield, GraduationCap, Search, Wrench, LogOut, ChevronRight, User as UserIcon, ArrowRight } from 'lucide-react';
+import { Menu, X, Zap, Box, Users, Shield, GraduationCap, Search, Wrench, LogOut, ChevronRight, User as UserIcon, ArrowRight, Wand2 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
@@ -36,6 +36,7 @@ export function Navbar() {
 
   const navLinks = [
     { name: 'Marketplace', path: '/products', icon: Box, desc: 'Browse Automation Packs' },
+    { name: 'Generator', path: '/generator', icon: Wand2, desc: 'AI Workflow Architect' },
     { name: 'Vault', path: '/vault', icon: Shield, desc: 'Subscription Access' },
     { name: 'Academy', path: '/academy', icon: GraduationCap, desc: 'Learn & Grow' },
     { name: 'White Label', path: '/white-label', icon: Users, desc: 'Agency Reseller Rights' },
@@ -95,6 +96,7 @@ export function Navbar() {
                 )}
               >
                 {link.name === 'API Checker' && <Wrench size={14} className="text-tech-accent" />}
+                {link.name === 'Generator' && <Wand2 size={14} className="text-purple-400" />}
                 {link.name}
               </Link>
             ))}

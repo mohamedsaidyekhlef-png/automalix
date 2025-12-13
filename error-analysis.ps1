@@ -1,5 +1,5 @@
-# Analyze and fix Automation Brain™ errors
-Write-Host "?? ANALYZING AUTOMATION BRAIN™ ERRORS..." -ForegroundColor Yellow
+# Analyze and fix Automation Brainâ„¢ errors
+Write-Host "?? ANALYZING AUTOMATION BRAINâ„¢ ERRORS..." -ForegroundColor Yellow
 
 # Check recent logs for error patterns
 Write-Host "`n?? RECENT ERROR ANALYSIS:" -ForegroundColor Yellow

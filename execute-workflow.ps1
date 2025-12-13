@@ -1,5 +1,5 @@
 # Execute workflow via API
-Write-Host "?? Executing Automation Brain™ workflow..." -ForegroundColor Green
+Write-Host "?? Executing Automation Brainâ„¢ workflow..." -ForegroundColor Green
 
 # Get workflow ID
 $workflowId = Get-Content "C:\automation-brain\workflow-id.txt" -ErrorAction SilentlyContinue

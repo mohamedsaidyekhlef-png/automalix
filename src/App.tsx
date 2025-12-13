@@ -10,6 +10,7 @@ import { WhiteLabel } from './pages/WhiteLabel';
 import { Academy } from './pages/Academy';
 import { AuditReadyPage } from './pages/categories/AuditReadyPage';
 import { ApiCheckerPage } from './pages/resources/ApiCheckerPage';
+import { WorkflowGenerator } from './pages/WorkflowGenerator';
 import { Login } from './pages/auth/Login';
 import { Signup } from './pages/auth/Signup';
 import { AuthProvider } from './context/AuthContext';
@@ -42,6 +43,7 @@ function App() {
               <Route path="/academy" element={<Academy />} />
               <Route path="/audit-ready" element={<AuditReadyPage />} />
               <Route path="/resources/api-checker" element={<ApiCheckerPage />} />
+              <Route path="/generator" element={<WorkflowGenerator />} />
               
               {/* Auth Routes */}
               <Route path="/login" element={<Login />} />

@@ -14,9 +14,9 @@ Write-Host @"
 5. Workflow will now run daily at 6 AM automatically
 
 ? SUCCESS INDICATORS:
-• Workflow shows as 'Active' or 'On'
-• Schedule shows next run time
-• No manual intervention needed
+â€¢ Workflow shows as 'Active' or 'On'
+â€¢ Schedule shows next run time
+â€¢ No manual intervention needed
 "@ -ForegroundColor Green
 
 # Wait for activation

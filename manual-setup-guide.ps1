@@ -1,5 +1,5 @@
 # Manual n8n Setup Script - Direct Browser Automation
-Write-Host "?? Setting up Automation Brain™ manually..." -ForegroundColor Green
+Write-Host "?? Setting up Automation Brainâ„¢ manually..." -ForegroundColor Green
 
 # Check n8n status
 Write-Host "Checking n8n status..." -ForegroundColor Yellow
@@ -16,7 +16,7 @@ try {
         Write-Host "1. Click 'New' to create workflow" -ForegroundColor White
         Write-Host "2. Click 'Import' and select:" -ForegroundColor White
         Write-Host "   C:\automation-brain\workflows\expert-vetted-automation-factory.json" -ForegroundColor Yellow
-        Write-Host "3. Save as: 'Automation Brain™ - Expert Vetted Factory'" -ForegroundColor White
+        Write-Host "3. Save as: 'Automation Brainâ„¢ - Expert Vetted Factory'" -ForegroundColor White
         Write-Host "4. Go to Credentials ? Add Credential" -ForegroundColor White
         Write-Host "5. Add these 3 credentials:" -ForegroundColor White
         

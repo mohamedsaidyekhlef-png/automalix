@@ -1,5 +1,5 @@
 # Final activation and monitoring
-Write-Host "?? FINAL AUTOMATION BRAIN™ ACTIVATION" -ForegroundColor Green
+Write-Host "?? FINAL AUTOMATION BRAINâ„¢ ACTIVATION" -ForegroundColor Green
 Write-Host "======================================" -ForegroundColor Green
 
 # 1. Check current status
@@ -28,9 +28,9 @@ Write-Host "4. Click 'Execute Workflow' to test" -ForegroundColor White
 Write-Host "5. Toggle to 'Active' for daily runs" -ForegroundColor White
 
 Write-Host "`n?? HELPFUL FILES:" -ForegroundColor Yellow
-Write-Host "• Steps: C:\automation-brain\BROWSER_STEPS.txt" -ForegroundColor Gray
-Write-Host "• Execution: C:\automation-brain\EXECUTION_STEPS.txt" -ForegroundColor Gray
-Write-Host "• Monitoring: This terminal window" -ForegroundColor Gray
+Write-Host "â€¢ Steps: C:\automation-brain\BROWSER_STEPS.txt" -ForegroundColor Gray
+Write-Host "â€¢ Execution: C:\automation-brain\EXECUTION_STEPS.txt" -ForegroundColor Gray
+Write-Host "â€¢ Monitoring: This terminal window" -ForegroundColor Gray
 
-Write-Host "`n?? YOUR AUTOMATION BRAIN™ IS READY!" -ForegroundColor Green
+Write-Host "`n?? YOUR AUTOMATION BRAINâ„¢ IS READY!" -ForegroundColor Green
 Write-Host "Complete the manual steps above to activate expert-vetted template generation!" -ForegroundColor White

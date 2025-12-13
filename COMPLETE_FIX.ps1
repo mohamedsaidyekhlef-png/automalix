@@ -1,5 +1,5 @@
 # Complete fix and retry for failed uploads
-Write-Host "?? COMPLETING AUTOMATION BRAIN™ SETUP" -ForegroundColor Green
+Write-Host "?? COMPLETING AUTOMATION BRAINâ„¢ SETUP" -ForegroundColor Green
 Write-Host "======================================" -ForegroundColor Green
 
 # 1. Retry GitHub with more content
@@ -15,7 +15,7 @@ $githubContent = @{
         architecture = "Enterprise-grade n8n workflow with built-in compliance"
     }
     marketing = @{
-        title = "Enterprise AI Governance Framework - Expert Vetted Automation™"
+        title = "Enterprise AI Governance Framework - Expert Vetted Automationâ„¢"
         description = "Expert-vetted enterprise automation pack with comprehensive compliance framework"
         seo_keywords = @("enterprise automation", "ai governance", "compliance automation", "expert vetted")
         pricing_justification = "$250K+ ROI guarantee within 12 months"
@@ -23,7 +23,7 @@ $githubContent = @{
     documentation = @{
         setup_guide = "Step-by-step implementation guide included"
         compliance_docs = "GDPR, SOC2, HIPAA, SOX compliance certificates"
-        support_package = "60-day expert support with Fix-My-Flow™ guarantee"
+        support_package = "60-day expert support with Fix-My-Flowâ„¢ guarantee"
     }
 } | ConvertTo-Json -Depth 5
 
@@ -36,7 +36,7 @@ $githubFiles = @(
     @{
         path = "expert-template-20251125/README.md"
         content = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(@"
-# Enterprise AI Governance Framework - Expert Vetted Automation™
+# Enterprise AI Governance Framework - Expert Vetted Automationâ„¢
 
 ## Overview
 Expert-vetted enterprise automation pack designed for Fortune 500 companies with built-in compliance frameworks.
@@ -55,7 +55,7 @@ Expert-vetted enterprise automation pack designed for Fortune 500 companies with
 4. Activate automation schedules
 
 ## Support
-24/7 expert support with Fix-My-Flow™ guarantee
+24/7 expert support with Fix-My-Flowâ„¢ guarantee
 "@))
         message = "Add comprehensive README for expert-vetted template"
     },
@@ -83,41 +83,41 @@ Write-Host "`n?? CREATING GUMROAD PRODUCT..." -ForegroundColor Yellow
 
 $gumroadProduct = @{
     product = @{
-        title = "Enterprise AI Governance Framework - Expert Vetted Automation™"
+        title = "Enterprise AI Governance Framework - Expert Vetted Automationâ„¢"
         description = @"
 ?? EXPERT-VETTED ENTERPRISE AUTOMATION PACK
 
 ? CERTIFICATION: Expert-Vetted (9.5/10 score)
-? COMPLIANCE: GDPR • SOC2 • HIPAA • SOX
+? COMPLIANCE: GDPR â€¢ SOC2 â€¢ HIPAA â€¢ SOX
 ? ROI GUARANTEE: $250K+ within 12 months
 ? SUPPORT: 60-day expert support included
 
 ?? WHAT YOU GET:
-• Complete n8n workflow templates
-• Comprehensive documentation
-• Compliance certificates  
-• Marketing materials
-• Lifetime updates
-• 24/7 priority support
+â€¢ Complete n8n workflow templates
+â€¢ Comprehensive documentation
+â€¢ Compliance certificates  
+â€¢ Marketing materials
+â€¢ Lifetime updates
+â€¢ 24/7 priority support
 
 ?? PERFECT FOR:
-• Fortune 500 companies
-• Compliance-driven organizations
-• Enterprise IT teams
-• Risk-averse enterprises
+â€¢ Fortune 500 companies
+â€¢ Compliance-driven organizations
+â€¢ Enterprise IT teams
+â€¢ Risk-averse enterprises
 
 ?? EXPERT VETTING INCLUDES:
-• Principal Architect review
-• Fortune 500 testing
-• Compliance validation
-• Quality assurance (9.5/10 score)
-• Professional certification
+â€¢ Principal Architect review
+â€¢ Fortune 500 testing
+â€¢ Compliance validation
+â€¢ Quality assurance (9.5/10 score)
+â€¢ Professional certification
 
 ?? GUARANTEED RESULTS:
-• 40+ hours/month time savings
-• $50K+ compliance cost reduction
-• 10x faster implementation
-• 99.9% uptime reliability
+â€¢ 40+ hours/month time savings
+â€¢ $50K+ compliance cost reduction
+â€¢ 10x faster implementation
+â€¢ 99.9% uptime reliability
 "@
         price = 2500
         currency = "usd"
@@ -133,7 +133,7 @@ Access your files: https://github.com/mohamedsaidyekhlef-png/automalix/tree/main
 Questions? Our expert team is here: support@automalix.com
 
 Best regards,
-Automation Brain™ Team
+Automation Brainâ„¢ Team
 "@
         custom_fields = @(
             @{
@@ -167,7 +167,7 @@ try {
     $manualGumroad = @{
         product_url = "https://gumroad.com/l/expert-ai-governance-framework"
         product_info = @{
-            title = "Enterprise AI Governance Framework - Expert Vetted Automation™"
+            title = "Enterprise AI Governance Framework - Expert Vetted Automationâ„¢"
             description = "Expert-vetted enterprise automation with compliance frameworks"
             price = 2500
             certification = "EXPERT"
@@ -195,7 +195,7 @@ $finalResults = @{
     platforms_deployed = @("GitHub", "Gumroad", "Vercel")
 }
 
-Write-Host "? AUTOMATION BRAIN™ SETUP COMPLETE!" -ForegroundColor Green
+Write-Host "? AUTOMATION BRAINâ„¢ SETUP COMPLETE!" -ForegroundColor Green
 Write-Host "???????????????????????????????????????" -ForegroundColor Green
 Write-Host "?? Expert-vetted template published successfully!" -ForegroundColor Cyan
 Write-Host "?? GitHub: 3 files uploaded with expert certification" -ForegroundColor Green
