@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Zap, Box, Users, Shield, GraduationCap, Search, Wrench, LogOut, ChevronRight, User as UserIcon, ArrowRight, Wand2 } from 'lucide-react';
+import { Menu, X, Box, Users, Shield, GraduationCap, Search, Wrench, LogOut, ChevronRight, Wand2, ArrowRight, BookOpen } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../context/AuthContext';
@@ -39,8 +39,8 @@ export function Navbar() {
     { name: 'Generator', path: '/generator', icon: Wand2, desc: 'AI Workflow Architect' },
     { name: 'Vault', path: '/vault', icon: Shield, desc: 'Subscription Access' },
     { name: 'Academy', path: '/academy', icon: GraduationCap, desc: 'Learn & Grow' },
+    { name: 'Blog', path: '/blog', icon: BookOpen, desc: 'Industry Insights' },
     { name: 'White Label', path: '/white-label', icon: Users, desc: 'Agency Reseller Rights' },
-    { name: 'API Checker', path: '/resources/api-checker', icon: Wrench, desc: 'Free Tool' },
   ];
 
   // Animation Variants
@@ -74,14 +74,21 @@ export function Navbar() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group relative z-[60]">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-tech-primary to-tech-secondary flex items-center justify-center shadow-lg shadow-tech-primary/20 group-hover:shadow-tech-primary/40 transition-all">
-              <Zap className="text-white fill-white" size={20} />
+          <Link to="/" className="flex items-center gap-3 group relative z-[60]">
+            {/* Logo Image with Glow Effect */}
+            <div className="relative w-10 h-10">
+              <div className="absolute inset-0 bg-tech-primary/60 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <img 
+                src="https://i.postimg.cc/W11s3pjy/Adobe-Express-file.png" 
+                alt="Automalix Logo" 
+                className="w-full h-full object-contain relative z-10 drop-shadow-[0_0_8px_rgba(99,102,241,0.6)] transition-transform duration-300 group-hover:scale-110" 
+              />
             </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-white leading-none tracking-tight">AUTOMALIX</span>
-              <span className="text-xs text-tech-accent font-medium tracking-widest">HQ</span>
-            </div>
+            
+            {/* Animated Gradient Text */}
+            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-tech-primary to-white bg-[length:200%_auto] animate-text-gradient tracking-tight">
+              AUTOMALIX
+            </span>
           </Link>
 
           {/* Desktop Nav */}
@@ -92,10 +99,9 @@ export function Navbar() {
                 to={link.path}
                 className={cn(
                   "text-sm font-medium transition-colors flex items-center gap-2",
-                  location.pathname === link.path ? "text-white" : "text-gray-400 hover:text-white"
+                  location.pathname.startsWith(link.path) ? "text-white" : "text-gray-400 hover:text-white"
                 )}
               >
-                {link.name === 'API Checker' && <Wrench size={14} className="text-tech-accent" />}
                 {link.name === 'Generator' && <Wand2 size={14} className="text-purple-400" />}
                 {link.name}
               </Link>

@@ -1,4 +1,4 @@
-import { Zap, Twitter, Github, Linkedin, Instagram } from 'lucide-react';
+import { Twitter, Github, Linkedin, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function Footer() {
@@ -7,11 +7,17 @@ export function Footer() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="col-span-1 md:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-tech-primary to-tech-secondary flex items-center justify-center">
-                <Zap className="text-white fill-white" size={16} />
+            <Link to="/" className="flex items-center gap-3 mb-6 group">
+              <div className="relative w-8 h-8">
+                 <img 
+                    src="https://i.postimg.cc/W11s3pjy/Adobe-Express-file.png" 
+                    alt="Automalix Logo" 
+                    className="w-full h-full object-contain drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]" 
+                 />
               </div>
-              <span className="text-lg font-bold text-white">AUTOMALIX</span>
+              <span className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-tech-primary to-white bg-[length:200%_auto] animate-text-gradient">
+                AUTOMALIX
+              </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               The #1 Marketplace for Automation Packs, AI Agents, and Ready-to-Launch Digital Systems. Save time, automate, and scale.

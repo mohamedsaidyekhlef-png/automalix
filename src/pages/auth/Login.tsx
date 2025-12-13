@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Zap, Mail, Lock, ArrowRight, Github, Chrome } from 'lucide-react';
+import { Mail, Lock, Github, Chrome } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { GlassCard } from '../../components/ui/GlassCard';
 import { useAuth } from '../../context/AuthContext';
@@ -30,11 +29,18 @@ export function Login() {
 
       <div className="w-full max-w-md relative z-10">
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2 mb-6 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-tech-primary to-tech-secondary flex items-center justify-center shadow-lg shadow-tech-primary/20 group-hover:shadow-tech-primary/40 transition-all">
-              <Zap className="text-white fill-white" size={20} />
+          <Link to="/" className="inline-flex items-center gap-3 mb-6 group">
+            <div className="relative w-12 h-12">
+              <div className="absolute inset-0 bg-tech-primary/50 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <img 
+                src="https://i.postimg.cc/W11s3pjy/Adobe-Express-file.png" 
+                alt="Automalix Logo" 
+                className="w-full h-full object-contain relative z-10 drop-shadow-[0_0_10px_rgba(99,102,241,0.5)] transition-transform duration-300 group-hover:scale-110" 
+              />
             </div>
-            <span className="text-2xl font-bold text-white">AUTOMALIX</span>
+            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-tech-primary to-white bg-[length:200%_auto] animate-text-gradient">
+              AUTOMALIX
+            </span>
           </Link>
           <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
           <p className="text-gray-400">Enter your credentials to access the Vault.</p>

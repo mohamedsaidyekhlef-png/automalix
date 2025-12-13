@@ -11,6 +11,8 @@ import { Academy } from './pages/Academy';
 import { AuditReadyPage } from './pages/categories/AuditReadyPage';
 import { ApiCheckerPage } from './pages/resources/ApiCheckerPage';
 import { WorkflowGenerator } from './pages/WorkflowGenerator';
+import { Blog } from './pages/Blog';
+import { BlogPost } from './pages/BlogPost';
 import { Login } from './pages/auth/Login';
 import { Signup } from './pages/auth/Signup';
 import { AuthProvider } from './context/AuthContext';
@@ -44,6 +46,10 @@ function App() {
               <Route path="/audit-ready" element={<AuditReadyPage />} />
               <Route path="/resources/api-checker" element={<ApiCheckerPage />} />
               <Route path="/generator" element={<WorkflowGenerator />} />
+              
+              {/* Blog Routes */}
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               
               {/* Auth Routes */}
               <Route path="/login" element={<Login />} />
