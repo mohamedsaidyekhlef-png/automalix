@@ -34,10 +34,16 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-6">Marketplace</h4>
             <ul className="space-y-3">
-              {['Audit-Ready Packs', 'AI Kits', 'Business-in-a-Box', 'White Label', 'SaaS Starters'].map((item) => (
-                <li key={item}>
-                  <Link to="/products" className="text-gray-400 hover:text-tech-accent text-sm transition-colors">
-                    {item}
+              {[
+                  { name: 'Audit-Ready Packs', link: '/audit-ready' },
+                  { name: 'AI Kits', link: '/products?category=AI+Kit' },
+                  { name: 'Business-in-a-Box', link: '/products?category=Business-in-a-Box' },
+                  { name: 'White Label', link: '/white-label' },
+                  { name: 'SaaS Starters', link: '/products?category=SaaS+Kit' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link to={item.link} className="text-gray-400 hover:text-tech-accent text-sm transition-colors">
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -47,10 +53,16 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-6">Resources</h4>
             <ul className="space-y-3">
-              {['Academy', 'Documentation', 'Blog', 'Changelog', 'Community'].map((item) => (
-                <li key={item}>
-                  <Link to="#" className="text-gray-400 hover:text-tech-accent text-sm transition-colors">
-                    {item}
+              {[
+                  { name: 'Academy', link: '/academy' },
+                  { name: 'Documentation', link: '/resources/docs' },
+                  { name: 'Blog', link: '/blog' },
+                  { name: 'Changelog', link: '/resources/changelog' },
+                  { name: 'Community', link: '/resources/community' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link to={item.link} className="text-gray-400 hover:text-tech-accent text-sm transition-colors">
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -60,10 +72,15 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-6">Legal</h4>
             <ul className="space-y-3">
-              {['License', 'Terms of Service', 'Privacy Policy', 'Refund Policy'].map((item) => (
-                <li key={item}>
-                  <Link to="#" className="text-gray-400 hover:text-tech-accent text-sm transition-colors">
-                    {item}
+              {[
+                  { name: 'License Agreement', link: '/legal/license' },
+                  { name: 'Terms of Service', link: '/legal/terms' },
+                  { name: 'Privacy Policy', link: '/legal/privacy' },
+                  { name: 'Refund Policy', link: '/legal/refund' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link to={item.link} className="text-gray-400 hover:text-tech-accent text-sm transition-colors">
+                    {item.name}
                   </Link>
                 </li>
               ))}

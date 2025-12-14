@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CreditCard, Lock, CheckCircle, Loader2, ShieldCheck } from 'lucide-react';
+import { X, CreditCard, Lock, CheckCircle, Loader2, ShieldCheck, AlertCircle } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { GlassCard } from '../ui/GlassCard';
 import { Product } from '../../data/products';
@@ -13,11 +14,13 @@ interface CheckoutModalProps {
 }
 
 export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) {
+  const navigate = useNavigate();
   const [step, setStep] = useState<'details' | 'processing' | 'success'>('details');
   const [email, setEmail] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiry, setExpiry] = useState('');
   const [cvc, setCvc] = useState('');
+  const [error, setError] = useState('');
 
   // Reset state when opening
   useEffect(() => {
@@ -27,17 +30,53 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
       setCardNumber('');
       setExpiry('');
       setCvc('');
+      setError('');
     }
   }, [isOpen]);
 
+  // Basic Validation Logic
+  const validateForm = () => {
+    if (!email.includes('@')) return "Please enter a valid email address.";
+    if (cardNumber.replace(/\s/g, '').length < 16) return "Invalid card number.";
+    if (expiry.length < 5) return "Invalid expiry date.";
+    if (cvc.length < 3) return "Invalid CVC.";
+    return null;
+  };
+
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
+    const validationError = validateForm();
+    if (validationError) {
+        setError(validationError);
+        return;
+    }
+    setError('');
     setStep('processing');
 
-    // Simulate Stripe API call
+    // Simulate Payment Gateway Delay
     setTimeout(() => {
-      setStep('success');
-    }, 2000);
+      // 90% Success Rate Simulation
+      if (Math.random() > 0.1) {
+          setStep('success');
+          // Redirect to success page after brief delay
+          setTimeout(() => {
+              onClose();
+              navigate('/payment-success');
+          }, 1500);
+      } else {
+          setStep('details');
+          setError('Card declined. Please try a different payment method.');
+      }
+    }, 2500);
+  };
+
+  // Input Formatters
+  const formatCardNumber = (val: string) => {
+    return val.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
+  };
+  
+  const formatExpiry = (val: string) => {
+    return val.replace(/\D/g, '').replace(/(.{2})/, '$1/').trim().slice(0, 5);
   };
 
   return (
@@ -105,14 +144,11 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                       </div>
                     </div>
 
-                    {/* Mobile Order Summary Toggle (could be added here) */}
-                    <div className="md:hidden mb-6 p-4 bg-white/5 rounded-lg border border-white/10">
-                       <div className="flex justify-between font-bold text-white">
-                          <span>Total</span>
-                          <span>{formatCurrency(product.price)}</span>
-                       </div>
-                       <p className="text-xs text-gray-400 mt-1">{product.title}</p>
-                    </div>
+                    {error && (
+                        <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2 text-red-400 text-sm">
+                            <AlertCircle size={16} /> {error}
+                        </div>
+                    )}
 
                     <div className="space-y-4">
                       <div>
@@ -135,8 +171,9 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                             type="text" 
                             required
                             value={cardNumber}
-                            onChange={e => setCardNumber(e.target.value)}
+                            onChange={e => setCardNumber(formatCardNumber(e.target.value))}
                             placeholder="0000 0000 0000 0000"
+                            maxLength={19}
                             className="w-full bg-black/20 border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white focus:border-tech-primary outline-none transition-colors font-mono"
                           />
                         </div>
@@ -149,8 +186,9 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                             type="text" 
                             required
                             value={expiry}
-                            onChange={e => setExpiry(e.target.value)}
+                            onChange={e => setExpiry(formatExpiry(e.target.value))}
                             placeholder="MM / YY"
+                            maxLength={5}
                             className="w-full bg-black/20 border border-white/10 rounded-lg px-4 py-3 text-white focus:border-tech-primary outline-none transition-colors font-mono"
                           />
                         </div>
@@ -162,7 +200,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                               type="text" 
                               required
                               value={cvc}
-                              onChange={e => setCvc(e.target.value)}
+                              onChange={e => setCvc(e.target.value.replace(/\D/g, '').slice(0, 4))}
                               placeholder="123"
                               className="w-full bg-black/20 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white focus:border-tech-primary outline-none transition-colors font-mono"
                             />
@@ -176,7 +214,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                     </Button>
 
                     <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-                      <Lock size={12} /> Payments secured by Stripe
+                      <Lock size={12} /> Payments secured by 256-bit SSL encryption
                     </div>
                   </form>
                 )}
@@ -184,8 +222,8 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                 {step === 'processing' && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-tech-darker z-20">
                     <Loader2 size={48} className="text-tech-primary animate-spin mb-4" />
-                    <h3 className="text-xl font-bold text-white">Processing Payment...</h3>
-                    <p className="text-gray-400 text-sm">Please do not close this window.</p>
+                    <h3 className="text-xl font-bold text-white">Processing Transaction...</h3>
+                    <p className="text-gray-400 text-sm">Verifying with bank...</p>
                   </div>
                 )}
 
@@ -194,13 +232,10 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
                     <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-6">
                       <CheckCircle size={40} className="text-green-500" />
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">Payment Successful!</h3>
+                    <h3 className="text-2xl font-bold text-white mb-2">Payment Approved!</h3>
                     <p className="text-gray-400 mb-8">
-                      Your Automation Pack is ready. Check your email for the download link and API keys.
+                      Redirecting you to your download...
                     </p>
-                    <Button variant="primary" onClick={onClose}>
-                      Access Dashboard
-                    </Button>
                   </div>
                 )}
               </div>

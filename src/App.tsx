@@ -19,6 +19,21 @@ import { AuthProvider } from './context/AuthContext';
 import { NewsletterPopup } from './components/marketing/NewsletterPopup';
 import { SupportBot } from './components/support/SupportBot';
 
+// Legal Pages
+import { PrivacyPolicy } from './pages/legal/PrivacyPolicy';
+import { TermsOfService } from './pages/legal/TermsOfService';
+import { RefundPolicy } from './pages/legal/RefundPolicy';
+import { License } from './pages/legal/License';
+
+// Resource Pages
+import { Documentation } from './pages/resources/Documentation';
+import { DocViewer } from './pages/resources/DocViewer';
+import { Changelog } from './pages/resources/Changelog';
+import { Community } from './pages/resources/Community';
+
+// Payment Pages
+import { PaymentSuccess } from './pages/payment/PaymentSuccess';
+
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -50,6 +65,21 @@ function App() {
               {/* Blog Routes */}
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              
+              {/* Legal Routes */}
+              <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+              <Route path="/legal/terms" element={<TermsOfService />} />
+              <Route path="/legal/refund" element={<RefundPolicy />} />
+              <Route path="/legal/license" element={<License />} />
+
+              {/* Resource Routes */}
+              <Route path="/resources/docs" element={<Documentation />} />
+              <Route path="/resources/docs/:docId" element={<DocViewer />} />
+              <Route path="/resources/changelog" element={<Changelog />} />
+              <Route path="/resources/community" element={<Community />} />
+
+              {/* Payment Routes */}
+              <Route path="/payment-success" element={<PaymentSuccess />} />
               
               {/* Auth Routes */}
               <Route path="/login" element={<Login />} />
