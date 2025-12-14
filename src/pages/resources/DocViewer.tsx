@@ -167,9 +167,13 @@ export function DocViewer() {
                 <Link to="/resources/community">
                   <Button variant="ghost" size="sm">Ask Community</Button>
                 </Link>
-                <Link to="/support">
-                  <Button variant="outline" size="sm">Contact Support</Button>
-                </Link>
+                <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => window.location.href = 'mailto:support@automalix.com'}
+                >
+                    Contact Support
+                </Button>
               </div>
             </div>
           </div>

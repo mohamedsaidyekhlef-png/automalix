@@ -133,7 +133,7 @@ export function Navbar() {
                         <p className="text-sm font-bold text-white truncate">{user.email}</p>
                       </div>
                       <Link to="/vault" className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white">My Vault</Link>
-                      <Link to="/settings" className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white">Settings</Link>
+                      <Link to="/vault" className="block px-4 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white">Settings</Link>
                       <button 
                         onClick={logout}
                         className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-white/5 flex items-center gap-2"

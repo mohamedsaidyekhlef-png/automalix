@@ -6,6 +6,7 @@ import { products } from '../data/products';
 import { Link } from 'react-router-dom';
 import { GuaranteeSection } from '../components/sections/GuaranteeSection';
 import { AuditReadyHighlight } from '../components/sections/AuditReadyHighlight';
+import { SeoKeywords } from '../components/sections/SeoKeywords';
 
 export function Home() {
   return (
@@ -30,7 +31,7 @@ export function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-tech-accent opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-tech-accent"></span>
               </span>
-              New: Audit-Ready Automation Packs™
+              New: Enterprise Automation Platform™
             </motion.div>
 
             <motion.h1
@@ -41,7 +42,7 @@ export function Home() {
             >
               The #1 Marketplace for <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-tech-primary via-tech-secondary to-tech-accent">
-                Digital Systems
+                Business Automation
               </span>
             </motion.h1>
 
@@ -51,7 +52,8 @@ export function Home() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-lg md:text-xl text-gray-400 mb-8 md:mb-10 max-w-2xl mx-auto px-4"
             >
-              Deploy enterprise-grade Automation Packs™, AI Agents, and Business-in-a-Box systems in minutes. Save time, reduce risk, and scale faster.
+              Streamline your <strong>business process automation</strong> with expert-vetted <strong>workflow automation tools</strong>. 
+              Deploy enterprise-grade systems, find <strong>automation specialists</strong>, and scale faster.
             </motion.p>
 
             <motion.div
@@ -62,12 +64,12 @@ export function Home() {
             >
               <Link to="/products" className="w-full sm:w-auto">
                 <Button size="lg" variant="glow" icon={<ArrowRight size={20} />} className="w-full sm:w-auto">
-                  Explore Marketplace
+                  Find Automation Tools
                 </Button>
               </Link>
               <Link to="/vault" className="w-full sm:w-auto">
                 <Button size="lg" variant="secondary" icon={<Play size={20} />} className="w-full sm:w-auto">
-                  View Demo
+                  View Platform Demo
                 </Button>
               </Link>
             </motion.div>
@@ -85,9 +87,9 @@ export function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { label: 'Active Users', value: '10,000+' },
-              { label: 'Automations Ran', value: '5M+' },
-              { label: 'Time Saved', value: '500k Hrs' },
+              { label: 'Specialists', value: '10,000+' },
+              { label: 'Workflows Ran', value: '5M+' },
+              { label: 'Hours Saved', value: '500k+' },
               { label: 'Community', value: '25k+' },
             ].map((stat, i) => (
               <div key={i}>
@@ -107,8 +109,8 @@ export function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-end justify-between mb-8 md:mb-12">
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4">Explore Categories</h2>
-              <p className="text-sm md:text-base text-gray-400">Everything you need to build a modern digital business.</p>
+              <h2 className="text-2xl md:text-3xl font-bold mb-2 md:mb-4">Explore Solutions</h2>
+              <p className="text-sm md:text-base text-gray-400">Everything you need to build a modern automation infrastructure.</p>
             </div>
             <Link to="/products" className="hidden md:flex items-center text-tech-accent hover:text-white transition-colors">
               View all <ArrowRight size={16} className="ml-2" />
@@ -118,8 +120,8 @@ export function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {[
               { title: 'Audit-Ready Packs™', desc: 'GDPR, SOX, & Risk Management', icon: Shield, color: 'text-red-400', link: '/products' },
-              { title: 'Automation Packs™', desc: 'n8n & Make workflows for every niche', icon: Zap, color: 'text-yellow-400', link: '/products' },
-              { title: 'AI Kits™', desc: 'Deploy-ready AI agents with code', icon: Cpu, color: 'text-tech-accent', link: '/products' },
+              { title: 'Automation Software', desc: 'n8n & Make workflows for every niche', icon: Zap, color: 'text-yellow-400', link: '/products' },
+              { title: 'AI Agents', desc: 'Deploy-ready AI agents with code', icon: Cpu, color: 'text-tech-accent', link: '/products' },
               { title: 'Business-in-a-Box', desc: 'Complete agency systems & assets', icon: TrendingUp, color: 'text-green-400', link: '/products' },
               { title: 'White Label', desc: 'Resell our systems as your own', icon: Shield, color: 'text-purple-400', link: '/white-label' },
             ].map((cat, i) => (
@@ -131,7 +133,7 @@ export function Home() {
                   <h3 className="text-lg md:text-xl font-bold mb-2">{cat.title}</h3>
                   <p className="text-sm md:text-base text-gray-400 mb-4 md:mb-6">{cat.desc}</p>
                   <span className="flex items-center text-sm font-medium text-white group-hover:text-tech-accent transition-colors">
-                    Browse Products <ArrowRight size={16} className="ml-2" />
+                    Browse Solutions <ArrowRight size={16} className="ml-2" />
                   </span>
                 </GlassCard>
               </Link>
@@ -150,9 +152,9 @@ export function Home() {
       <section className="py-16 md:py-24 bg-tech-surface/30">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center max-w-3xl mx-auto mb-10 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">Trending Systems</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">Trending Automation Systems</h2>
             <p className="text-gray-400 text-sm md:text-base">
-              Top-rated automation packs and kits used by industry leaders.
+              Top-rated automation tools and kits used by industry leaders.
             </p>
           </div>
 
@@ -215,6 +217,9 @@ export function Home() {
           </GlassCard>
         </div>
       </section>
+
+      {/* SEO Keywords Footer */}
+      <SeoKeywords />
     </div>
   );
 }

@@ -14,7 +14,7 @@ export function Community() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <GlassCard className="p-8 flex items-center gap-6 group hover:bg-indigo-900/10 transition-colors cursor-pointer">
+            <GlassCard className="p-8 flex items-center gap-6 group hover:bg-indigo-900/10 transition-colors cursor-pointer" onClick={() => window.open('https://discord.com', '_blank')}>
                 <div className="w-16 h-16 rounded-2xl bg-[#5865F2] flex items-center justify-center text-white shrink-0">
                     <MessageCircle size={32} />
                 </div>
@@ -25,7 +25,7 @@ export function Community() {
                 </div>
             </GlassCard>
 
-            <GlassCard className="p-8 flex items-center gap-6 group hover:bg-blue-900/10 transition-colors cursor-pointer">
+            <GlassCard className="p-8 flex items-center gap-6 group hover:bg-blue-900/10 transition-colors cursor-pointer" onClick={() => window.open('https://twitter.com', '_blank')}>
                 <div className="w-16 h-16 rounded-2xl bg-[#1DA1F2] flex items-center justify-center text-white shrink-0">
                     <Twitter size={32} />
                 </div>
@@ -36,7 +36,7 @@ export function Community() {
                 </div>
             </GlassCard>
 
-            <GlassCard className="p-8 flex items-center gap-6 group hover:bg-gray-800/50 transition-colors cursor-pointer">
+            <GlassCard className="p-8 flex items-center gap-6 group hover:bg-gray-800/50 transition-colors cursor-pointer" onClick={() => window.open('https://github.com', '_blank')}>
                 <div className="w-16 h-16 rounded-2xl bg-[#333] flex items-center justify-center text-white shrink-0">
                     <Github size={32} />
                 </div>
@@ -47,7 +47,7 @@ export function Community() {
                 </div>
             </GlassCard>
 
-            <GlassCard className="p-8 flex items-center gap-6 group hover:bg-purple-900/10 transition-colors cursor-pointer">
+            <GlassCard className="p-8 flex items-center gap-6 group hover:bg-purple-900/10 transition-colors cursor-pointer" onClick={() => window.open('https://reddit.com', '_blank')}>
                 <div className="w-16 h-16 rounded-2xl bg-purple-600 flex items-center justify-center text-white shrink-0">
                     <Users size={32} />
                 </div>

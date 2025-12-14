@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Check, Play, Shield, Clock, Download, Star, ArrowRight, AlertTriangle, ShoppingCart } from 'lucide-react';
 import { Button } from '../components/ui/Button';
@@ -19,7 +19,7 @@ export function ProductDetail() {
       <div className="container mx-auto px-4 md:px-6">
         {/* Breadcrumb */}
         <div className="flex flex-wrap items-center gap-2 text-sm text-gray-400 mb-6 lg:mb-8">
-          <span>Marketplace</span>
+          <Link to="/products" className="hover:text-white">Marketplace</Link>
           <span>/</span>
           <span>{product.category}</span>
           <span>/</span>
@@ -136,7 +136,11 @@ export function ProductDetail() {
                 >
                   Buy Now
                 </Button>
-                <Button className="w-full mb-6" variant="secondary">
+                <Button 
+                    className="w-full mb-6" 
+                    variant="secondary"
+                    onClick={() => setIsCheckoutOpen(true)}
+                >
                   Add to Cart
                 </Button>
 
@@ -159,9 +163,11 @@ export function ProductDetail() {
                 <p className="text-sm text-gray-300 mb-4">
                   Join the Automation Vault™ and get this pack plus 50+ others for just $39/mo.
                 </p>
-                <Button size="sm" variant="outline" className="w-full border-white/30 text-white hover:bg-white/10">
-                  View Subscription <ArrowRight size={14} />
-                </Button>
+                <Link to="/vault">
+                    <Button size="sm" variant="outline" className="w-full border-white/30 text-white hover:bg-white/10">
+                    View Subscription <ArrowRight size={14} />
+                    </Button>
+                </Link>
               </GlassCard>
             </div>
           </div>

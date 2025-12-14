@@ -2,6 +2,7 @@ import { Check, Download, Lock, Zap } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { GlassCard } from '../components/ui/GlassCard';
 import { GuaranteeSection } from '../components/sections/GuaranteeSection';
+import { Link } from 'react-router-dom';
 
 export function WhiteLabel() {
   return (
@@ -16,7 +17,9 @@ export function WhiteLabel() {
         <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-10">
           Purchase reseller rights to our enterprise-grade Automation Packs™. Rebrand them, set your own price, and keep 100% of the profit.
         </p>
-        <Button size="lg" variant="glow" className="w-full md:w-auto">View White-Label Bundles</Button>
+        <Button size="lg" variant="glow" className="w-full md:w-auto" onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}>
+            View White-Label Bundles
+        </Button>
       </div>
 
       {/* Benefits */}
@@ -37,7 +40,7 @@ export function WhiteLabel() {
       </div>
 
       {/* Pricing Table */}
-      <div className="container mx-auto px-4 md:px-6 mb-16 md:mb-24">
+      <div id="pricing" className="container mx-auto px-4 md:px-6 mb-16 md:mb-24">
         <GlassCard className="max-w-4xl mx-auto p-6 md:p-10 border-tech-primary/30 relative overflow-hidden">
           <div className="absolute top-0 right-0 bg-tech-primary text-white text-xs font-bold px-4 py-2 rounded-bl-xl">
             BEST VALUE
@@ -57,9 +60,11 @@ export function WhiteLabel() {
             <div className="text-center md:text-right w-full md:w-auto">
               <div className="text-4xl md:text-5xl font-bold text-white mb-2">$2,499</div>
               <div className="text-gray-500 text-sm mb-6">One-time payment. Lifetime access.</div>
-              <Button size="lg" variant="glow" className="w-full">
-                Buy Agency License
-              </Button>
+              <Link to="/products/white-label-bundle">
+                <Button size="lg" variant="glow" className="w-full">
+                    Buy Agency License
+                </Button>
+              </Link>
             </div>
           </div>
         </GlassCard>

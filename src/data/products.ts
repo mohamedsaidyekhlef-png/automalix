@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   title: string;
-  category: 'Automation Pack' | 'AI Kit' | 'Business-in-a-Box' | 'White Label' | 'SaaS Kit' | 'Audit-Ready' | 'Course' | 'Notion OS';
+  category: 'Automation Pack' | 'AI Kit' | 'Business-in-a-Box' | 'White Label' | 'SaaS Kit' | 'Audit-Ready' | 'Course' | 'Notion OS' | 'Subscription';
   niche: ('Real Estate' | 'E-commerce' | 'Marketing' | 'SaaS' | 'Finance' | 'Health & Legal' | 'General')[];
   tools: ('n8n' | 'Make' | 'Zapier' | 'Airtable' | 'Notion API' | 'Python' | 'Node.js')[];
   complexity: 'Beginner' | 'Intermediate' | 'Expert';

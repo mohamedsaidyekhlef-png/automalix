@@ -1,8 +1,14 @@
+import { useState } from 'react';
 import { Check, X } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { GlassCard } from '../components/ui/GlassCard';
+import { CheckoutModal } from '../components/checkout/CheckoutModal';
+import { Product } from '../data/products';
 
 export function Vault() {
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<Product | null>(null);
+
   const plans = [
     {
       name: 'Starter',
@@ -24,6 +30,28 @@ export function Vault() {
       notIncluded: []
     }
   ];
+
+  const handlePlanSelect = (plan: typeof plans[0]) => {
+    const product: Product = {
+      id: `vault-${plan.name.toLowerCase()}`,
+      title: `Vault ${plan.name} Membership`,
+      category: 'Subscription',
+      niche: ['General'],
+      tools: [],
+      complexity: 'Expert',
+      integrations: [],
+      price: plan.price,
+      description: `Monthly subscription to the Automation Vault (${plan.name} Tier). Includes access to ${plan.features.length} core features including ${plan.features[0]} and ${plan.features[1]}.`,
+      features: plan.features,
+      tags: ['Subscription', 'Membership', plan.name],
+      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000', // Cyberpunk vault image
+      rating: 5.0,
+      reviews: 120,
+      hasGuarantee: true
+    };
+    setSelectedPlan(product);
+    setIsCheckoutOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-tech-darker text-white pt-32 pb-20">
@@ -68,15 +96,25 @@ export function Vault() {
               </div>
 
               <Button 
-                variant={plan.popular ? 'glow' : 'outline'} 
-                className="w-full"
+                  variant={plan.popular ? 'glow' : 'outline'} 
+                  className="w-full"
+                  onClick={() => handlePlanSelect(plan)}
               >
-                Choose {plan.name}
+                  Choose {plan.name}
               </Button>
             </GlassCard>
           ))}
         </div>
       </div>
+
+      {/* Checkout Modal */}
+      {selectedPlan && (
+        <CheckoutModal 
+          product={selectedPlan} 
+          isOpen={isCheckoutOpen} 
+          onClose={() => setIsCheckoutOpen(false)} 
+        />
+      )}
     </div>
   );
 }

@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CheckCircle, Download, ArrowRight, Copy, FileJson, FileText } from 'lucide-react';
+import { CheckCircle, Download, ArrowRight, FileJson, FileText } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { GlassCard } from '../../components/ui/GlassCard';
 import confetti from 'canvas-confetti';
 
 export function PaymentSuccess() {
   const [downloadReady, setDownloadReady] = useState(false);
+  const location = useLocation();
+  const product = location.state?.product;
 
   useEffect(() => {
     // Fire confetti
@@ -35,6 +37,10 @@ export function PaymentSuccess() {
     return () => clearInterval(interval);
   }, []);
 
+  // Fallback if accessed directly without product state
+  const displayTitle = product?.title || "Enterprise Automation Pack";
+  const displayCategory = product?.category || "Digital Product";
+
   return (
     <div className="min-h-screen bg-tech-darker text-white pt-32 pb-20 flex items-center justify-center">
       <div className="container mx-auto px-4 md:px-6 max-w-2xl">
@@ -61,8 +67,8 @@ export function PaymentSuccess() {
                             <FileJson size={20} className="text-tech-primary" />
                         </div>
                         <div>
-                            <div className="font-bold">Enterprise Automation Pack</div>
-                            <div className="text-xs text-gray-500">License: Standard Commercial</div>
+                            <div className="font-bold">{displayTitle}</div>
+                            <div className="text-xs text-gray-500">License: Standard Commercial • {displayCategory}</div>
                         </div>
                     </div>
                 </div>

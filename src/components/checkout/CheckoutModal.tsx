@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CreditCard, Lock, CheckCircle, Loader2, ShieldCheck, AlertCircle } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { GlassCard } from '../ui/GlassCard';
 import { Product } from '../../data/products';
 import { formatCurrency } from '../../lib/utils';
 
@@ -61,7 +60,7 @@ export function CheckoutModal({ product, isOpen, onClose }: CheckoutModalProps) 
           // Redirect to success page after brief delay
           setTimeout(() => {
               onClose();
-              navigate('/payment-success');
+              navigate('/payment-success', { state: { product } });
           }, 1500);
       } else {
           setStep('details');

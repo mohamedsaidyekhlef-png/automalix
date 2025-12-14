@@ -2,6 +2,7 @@ import { Play, Clock, BookOpen, Star } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { GlassCard } from '../components/ui/GlassCard';
 import { products } from '../data/products';
+import { Link } from 'react-router-dom';
 
 export function Academy() {
   const courses = products.filter(p => p.category === 'Course');
@@ -12,7 +13,7 @@ export function Academy() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-5xl font-bold mb-6">Automalix Academy</h1>
           <p className="text-xl text-gray-400">
-            Master the business of automation. Learn how to build, sell, and scale your own agency from the experts.
+            Master the business of automation. Get the <strong>automation training</strong> and <strong>certification</strong> you need to become a high-paid <strong>Automation Engineer</strong>.
           </p>
         </div>
 
@@ -37,7 +38,9 @@ export function Academy() {
                 <p className="text-gray-400 mb-6 flex-1">{course.description}</p>
                 <div className="flex items-center justify-between pt-6 border-t border-white/10">
                   <span className="text-2xl font-bold">${course.price}</span>
-                  <Button variant="primary">Enroll Now</Button>
+                  <Link to="/signup">
+                    <Button variant="primary">Enroll Now</Button>
+                  </Link>
                 </div>
               </div>
             </GlassCard>
@@ -50,7 +53,7 @@ export function Academy() {
             </div>
             <h3 className="text-xl font-bold mb-2">New Courses Coming Soon</h3>
             <p className="text-gray-500">
-              We are recording modules on "AI Agent Architecture" and "Advanced n8n Logic".
+              We are recording modules on "Automation Architecture" and "Advanced n8n Logic" for aspiring <strong>Automation Specialists</strong>.
             </p>
           </GlassCard>
         </div>

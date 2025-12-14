@@ -4,15 +4,18 @@ import { Search, Filter, SlidersHorizontal, Check, X, ChevronDown, ChevronUp } f
 import { products, Product } from '../data/products';
 import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { cn } from '../lib/utils';
 
 // Filter Types
 type SortOption = 'best-match' | 'price-asc' | 'price-desc' | 'newest' | 'rating';
 
 export function Marketplace() {
+  const [searchParams] = useSearchParams();
+  const initialQuery = searchParams.get('q') || '';
+
   // State
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [sortOption, setSortOption] = useState<SortOption>('best-match');
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
@@ -137,7 +140,14 @@ export function Marketplace() {
         <p className="text-xs text-gray-400 mb-4">
           Need a custom audit-ready system built for your compliance team?
         </p>
-        <Button size="sm" variant="outline" className="w-full text-xs">Contact Sales</Button>
+        <Button 
+            size="sm" 
+            variant="outline" 
+            className="w-full text-xs"
+            onClick={() => window.location.href = 'mailto:sales@automalix.com?subject=Enterprise%20Audit%20System'}
+        >
+            Contact Sales
+        </Button>
       </GlassCard>
     </div>
   );
@@ -148,9 +158,9 @@ export function Marketplace() {
         {/* Top Header & Search */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">Marketplace</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">Automation Solutions</h1>
             <p className="text-gray-400 text-sm md:text-base">
-              {filteredProducts.length} Enterprise-Grade Systems Available
+              {filteredProducts.length} Enterprise-Grade <strong>Automation Tools</strong> Available
             </p>
           </div>
           
@@ -159,7 +169,7 @@ export function Marketplace() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={20} />
               <input 
                 type="text" 
-                placeholder="Search..." 
+                placeholder="Search automation tools..." 
                 className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white focus:outline-none focus:border-tech-primary/50 transition-all"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
