@@ -2,12 +2,16 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Wand2, Bot, Zap, Settings, Check, Copy, Download, Cpu, ArrowRight, 
-  Code, Shield, AlertTriangle, Layers, Terminal, Database, Globe, 
-  Workflow, Share2, FileJson, Activity
+  Code, Shield, Layers, Terminal, Database, Globe, 
+  Workflow, Share2, FileJson, Activity, Loader2, AlertCircle
 } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { GlassCard } from '../components/ui/GlassCard';
 import { cn } from '../lib/utils';
+
+// API Configuration
+const OPENROUTER_API_KEY = "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";
+const AI_MODEL = "anthropic/claude-4.5-opus";
 
 // --- Types ---
 type Platform = 'n8n' | 'make' | 'zapier' | 'power-automate';
@@ -56,6 +60,7 @@ export function WorkflowGenerator() {
   });
   const [logs, setLogs] = useState<string[]>([]);
   const [generatedJson, setGeneratedJson] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
   // Constants
@@ -66,43 +71,107 @@ export function WorkflowGenerator() {
     { id: 'power-automate', name: 'Power Automate', icon: Layers, color: 'text-blue-400', border: 'border-blue-400/50', desc: 'Microsoft ecosystem native.' },
   ];
 
-  // Simulation Logic
-  const handleGenerate = () => {
+  // Real API Logic
+  const handleGenerate = async () => {
     if (!config.description) return;
     setStep('architecting');
     setLogs([]);
+    setError(null);
 
-    const sequence = [
-      "Initializing AI Architect Core v2.4...",
-      `Analyzing intent for platform: ${config.platform.toUpperCase()}...`,
-      "Identifying trigger events and data schemas...",
-      "Constructing Directed Acyclic Graph (DAG)...",
-      config.includeWebhooks ? "Configuring secure webhook endpoints (HMAC)..." : "Skipping webhook configuration...",
-      config.complexity === 'enterprise' ? "Injecting enterprise middleware patterns..." : "Applying standard logic patterns...",
-      config.errorHandling !== 'none' ? `Implementing '${config.errorHandling}' strategy...` : "Error handling skipped...",
-      config.includeAuditLogs ? "Attaching immutable audit log nodes..." : "Audit logging disabled...",
-      "Validating JSON structure against schema...",
-      "Optimizing for execution speed...",
-      "Finalizing blueprint..."
-    ];
+    // Initial Logs
+    addLog("Initializing AI Architect Core v4.5 (Claude Opus)...");
+    addLog(`Target Platform: ${config.platform.toUpperCase()}`);
+    addLog("Establishing secure connection to OpenRouter API...");
 
-    let delay = 0;
-    sequence.forEach((log, index) => {
-      delay += Math.random() * 600 + 400; // Random delay between 400ms and 1000ms
+    try {
+      // 1. Construct the Prompt
+      const systemPrompt = `
+        You are a Principal Automation Architect. Your goal is to generate a VALID, IMPORTABLE JSON workflow file for ${config.platform}.
+        
+        Requirements:
+        - Platform: ${config.platform}
+        - Complexity: ${config.complexity} (If enterprise, include error handling and comments)
+        - Error Handling: ${config.errorHandling}
+        - Features: ${config.includeWebhooks ? 'Include Webhook Security (HMAC)' : ''}, ${config.includeAuditLogs ? 'Include Audit Logging Step' : ''}
+        
+        User Request: "${config.description}"
+        
+        OUTPUT RULES:
+        1. Return ONLY the raw JSON code. 
+        2. Do NOT wrap it in markdown code blocks (like \`\`\`json).
+        3. Do NOT include any conversational text before or after the JSON.
+        4. Ensure the JSON structure matches the import format for ${config.platform} (e.g., for n8n it should have "nodes" and "connections" arrays).
+      `;
+
+      // 2. Start API Call
+      addLog(`Sending prompt to ${AI_MODEL}...`);
+      
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "model": AI_MODEL,
+          "messages": [
+            {"role": "system", "content": systemPrompt},
+            {"role": "user", "content": "Generate the workflow JSON now."}
+          ],
+          "temperature": 0.2 // Low temperature for deterministic code
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`API Error: ${errorData.error?.message || response.statusText || response.status}`);
+      }
+
+      addLog("Receiving data stream...");
+      const data = await response.json();
+      
+      let aiContent = data.choices?.[0]?.message?.content || "";
+
+      // 3. Clean up Response (Remove Markdown if present)
+      addLog("Parsing and validating JSON structure...");
+      aiContent = aiContent.replace(/```json/g, '').replace(/```/g, '').trim();
+
+      // Validate JSON
+      try {
+        JSON.parse(aiContent); // Just to check if valid
+        setGeneratedJson(aiContent);
+        addLog("Validation successful. Blueprint ready.");
+        
+        // Slight delay to show the "Success" log before switching
+        setTimeout(() => {
+          setStep('result');
+        }, 1000);
+
+      } catch (e) {
+        console.error("JSON Parse Error", e);
+        addLog("CRITICAL: Generated code failed validation. Retrying logic...");
+        setError("The AI generated invalid JSON. Please try refining your description.");
+        // Fallback to raw text if JSON fails, so user can at least see it
+        setGeneratedJson(aiContent); 
+        setStep('result');
+      }
+
+    } catch (err: any) {
+      console.error(err);
+      addLog(`ERROR: ${err.message}`);
+      setError(err.message || "Failed to contact AI provider.");
+    }
+  };
+
+  const addLog = (message: string) => {
+    setLogs(prev => [...prev, `> ${message}`]);
+    if (terminalRef.current) {
       setTimeout(() => {
-        setLogs(prev => [...prev, `> ${log}`]);
         if (terminalRef.current) {
           terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
         }
-        if (index === sequence.length - 1) {
-          setTimeout(() => {
-            const mock = generateMockWorkflow(config);
-            setGeneratedJson(JSON.stringify(mock, null, 2));
-            setStep('result');
-          }, 800);
-        }
-      }, delay);
-    });
+      }, 100);
+    }
   };
 
   const copyToClipboard = () => {
@@ -132,11 +201,11 @@ export function WorkflowGenerator() {
               <Cpu size={14} /> Enterprise Architect Agent
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-              Workflow Generator <span className="text-gray-600">v2.0</span>
+              Workflow Generator <span className="text-gray-600">v3.0</span>
             </h1>
             <p className="text-lg text-gray-400 leading-relaxed">
               Transform natural language requirements into production-ready JSON blueprints. 
-              Supports complex branching, error handling strategies, and compliance logging.
+              Powered by <strong>Claude 4.5 Opus</strong> via OpenRouter.
             </p>
           </div>
           <div className="hidden md:flex gap-4 mt-6 md:mt-0">
@@ -326,6 +395,9 @@ export function WorkflowGenerator() {
                       <div className="w-3 h-3 rounded-full bg-green-500" />
                     </div>
                     <div className="ml-4 text-xs text-gray-500">automalix-architect — -zsh — 80x24</div>
+                    <div className="ml-auto flex items-center gap-2 text-green-400 text-xs animate-pulse">
+                      <Loader2 size={12} className="animate-spin" /> Processing
+                    </div>
                   </div>
                   <div 
                     ref={terminalRef}
@@ -356,20 +428,35 @@ export function WorkflowGenerator() {
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-6"
                 >
-                  <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 p-4 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-green-500/20 rounded-full text-green-400">
-                        <Check size={20} />
+                  {error ? (
+                    <div className="flex items-center justify-between bg-red-500/10 border border-red-500/20 p-4 rounded-xl">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-red-500/20 rounded-full text-red-400">
+                          <AlertCircle size={20} />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-white">Generation Warning</h3>
+                          <p className="text-xs text-red-300/70">{error}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-bold text-white">Blueprint Generated Successfully</h3>
-                        <p className="text-xs text-green-300/70">
-                          {config.platform} • {config.complexity} • {config.errorHandling}
-                        </p>
-                      </div>
+                      <Button variant="ghost" size="sm" onClick={() => setStep('config')}>Try Again</Button>
                     </div>
-                    <Button variant="ghost" size="sm" onClick={() => setStep('config')}>New Workflow</Button>
-                  </div>
+                  ) : (
+                    <div className="flex items-center justify-between bg-green-500/10 border border-green-500/20 p-4 rounded-xl">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2 bg-green-500/20 rounded-full text-green-400">
+                          <Check size={20} />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-white">Blueprint Generated Successfully</h3>
+                          <p className="text-xs text-green-300/70">
+                            {config.platform} • {config.complexity} • {config.errorHandling}
+                          </p>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" onClick={() => setStep('config')}>New Workflow</Button>
+                    </div>
+                  )}
 
                   <div className="relative group">
                     <div className="absolute -inset-1 bg-gradient-to-r from-tech-primary to-tech-secondary rounded-2xl opacity-20 blur-lg"></div>
@@ -465,82 +552,4 @@ export function WorkflowGenerator() {
       </div>
     </div>
   );
-}
-
-// --- Mock Generators ---
-
-function generateMockWorkflow(config: GeneratorConfig) {
-  const timestamp = new Date().toISOString();
-  
-  // Base Metadata
-  const meta = {
-    generator: "Automalix Enterprise Architect v2.4",
-    timestamp,
-    compliance: config.includeAuditLogs ? ["GDPR", "SOC2_LOGGING"] : [],
-    security: config.includeWebhooks ? ["HMAC_SHA256"] : [],
-    complexity: config.complexity
-  };
-
-  if (config.platform === 'n8n') {
-    const nodes = [
-      {
-        parameters: { path: "webhook", options: {} },
-        name: "Webhook Trigger",
-        type: "n8n-nodes-base.webhook",
-        typeVersion: 1,
-        position: [100, 300],
-        webhookId: "uuid-placeholder"
-      }
-    ];
-
-    if (config.includeWebhooks) {
-      nodes.push({
-        parameters: {
-          functionCode: "// HMAC Verification Logic\nconst crypto = require('crypto');\nconst signature = $input.headers['x-signature'];\n// Verify..."
-        },
-        name: "Security Guard",
-        type: "n8n-nodes-base.function",
-        typeVersion: 1,
-        position: [300, 300]
-      });
-    }
-
-    if (config.complexity === 'enterprise') {
-      nodes.push({
-        parameters: {
-          conditions: { boolean: [{ value1: "={{$json.error}}", value2: true }] }
-        },
-        name: "Error Router",
-        type: "n8n-nodes-base.if",
-        typeVersion: 1,
-        position: [500, 300]
-      });
-    }
-
-    // Add main logic placeholder
-    nodes.push({
-      parameters: { content: `## Business Logic\n${config.description}` },
-      name: "Logic Placeholder",
-      type: "n8n-nodes-base.stickyNote",
-      typeVersion: 1,
-      position: [500, 100]
-    });
-
-    return { name: "Enterprise Workflow", nodes, connections: {}, meta };
-  }
-
-  // Generic fallback for other platforms
-  return {
-    platform: config.platform,
-    version: "1.0.0",
-    description: config.description,
-    steps: [
-      { type: "trigger", name: "Incoming Event", secure: config.includeWebhooks },
-      { type: "action", name: "Data Transformation" },
-      ...(config.errorHandling !== 'none' ? [{ type: "logic", name: "Error Handler", strategy: config.errorHandling }] : []),
-      ...(config.includeAuditLogs ? [{ type: "action", name: "Audit Log to DB" }] : []),
-      { type: "action", name: "Execute Core Logic" }
-    ],
-    meta
-  };
 }
